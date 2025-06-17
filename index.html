@@ -117,6 +117,7 @@
         position: absolute;
         font-size: 3rem;
         animation: sway 3s ease-in-out infinite alternate;
+        z-index: -1; /* Move palm trees behind content */
     }
     
     @keyframes sway {
@@ -218,6 +219,10 @@
         .palm-tree {
             font-size: 2rem;
         }
+        
+        .company-name {
+            font-size: 1.2rem !important;
+        }
     }
     
     /* Vibrant button styles */
@@ -297,11 +302,90 @@
     .player-info-value {
         font-weight: bold;
     }
+    
+    /* Catafixia styles */
+    .catafixia-container {
+        background: linear-gradient(135deg, #ff9900, #ff3300);
+        border-radius: 16px;
+        padding: 20px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        border: 5px solid #ffcc00;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .catafixia-title {
+        text-shadow: 2px 2px 0 #ff3300, 4px 4px 0 rgba(0,0,0,0.2);
+        color: #ffcc00;
+    }
+    
+    .catafixia-icon {
+        font-size: 3rem;
+        animation: spin 4s linear infinite;
+        display: inline-block;
+    }
+    
+    @keyframes spin {
+        from { transform: rotate(0deg); }
+        to { transform: rotate(360deg); }
+    }
+    
+    .prize-amount {
+        font-size: 1.5rem;
+        font-weight: bold;
+        color: #ffcc00;
+        text-shadow: 1px 1px 0 #000;
+        background: rgba(0,0,0,0.2);
+        padding: 5px 10px;
+        border-radius: 8px;
+        display: inline-block;
+    }
+    
+    .mega-prize {
+        animation: glow 2s infinite alternate;
+        color: #ffcc00;
+        font-weight: bold;
+        text-shadow: 0 0 10px #ff9900, 0 0 20px #ff6600;
+    }
+    
+    @keyframes glow {
+        from { text-shadow: 0 0 10px #ff9900, 0 0 20px #ff6600; }
+        to { text-shadow: 0 0 15px #ff9900, 0 0 30px #ff6600, 0 0 40px #ff3300; }
+    }
+    
+    /* Company name styles - SMALLER SIZE */
+    .company-name {
+        font-size: 1.5rem; /* Reduced from 2rem */
+        font-weight: bold;
+        background: linear-gradient(to right, #ff9900, #ff3300);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+        letter-spacing: 1px;
+    }
+    
+    /* Disclaimer styles */
+    .disclaimer {
+        background-color: rgba(255, 255, 255, 0.8);
+        border-radius: 10px;
+        padding: 15px;
+        margin-top: 20px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        font-size: 0.9rem;
+        color: #555;
+        text-align: center;
+        border-left: 4px solid #ff00aa;
+    }
 </style>
 <!-- Login Screen - Password -->
 <div id="login-screen-password" class="login-screen w-full max-w-md bg-white bg-opacity-95 rounded-xl p-6 shadow-2xl relative overflow-hidden">
-    <div class="absolute top-2 left-4 palm-tree">🌴</div>
-    <div class="absolute top-2 right-4 palm-tree">🌴</div>
+    <!-- Palm trees repositioned to not overlap with text -->
+    <div class="absolute top-2 left-0 palm-tree">🌴</div>
+    <div class="absolute top-2 right-0 palm-tree">🌴</div>
+    
+    <div class="text-center mb-2 mt-8">
+        <span class="company-name">TOURS AVENTURAS POR LA BAJA</span>
+    </div>
     
     <h1 class="text-4xl font-bold text-center mb-6 text-blue-600 game-title">🏝️ Puertas Mágicas 🏝️</h1>
     
@@ -330,8 +414,13 @@
 
 <!-- Login Screen - User Info -->
 <div id="login-screen-info" class="hidden login-screen w-full max-w-md bg-white bg-opacity-95 rounded-xl p-6 shadow-2xl relative overflow-hidden">
-    <div class="absolute top-2 left-4 palm-tree">🌴</div>
-    <div class="absolute top-2 right-4 palm-tree">🌴</div>
+    <!-- Palm trees repositioned to not overlap with text -->
+    <div class="absolute top-2 left-0 palm-tree">🌴</div>
+    <div class="absolute top-2 right-0 palm-tree">🌴</div>
+    
+    <div class="text-center mb-2 mt-8">
+        <span class="company-name">TOURS AVENTURAS POR LA BAJA</span>
+    </div>
     
     <h1 class="text-4xl font-bold text-center mb-6 text-blue-600 game-title">🏝️ Puertas Mágicas 🏝️</h1>
     
@@ -358,8 +447,13 @@
 
 <!-- Game Screen (Initially Hidden) -->
 <div id="game-container" class="hidden w-full max-w-4xl bg-white bg-opacity-90 rounded-xl p-6 shadow-2xl relative overflow-hidden">
-    <div class="absolute top-2 left-4 palm-tree">🌴</div>
-    <div class="absolute top-2 right-4 palm-tree">🌴</div>
+    <!-- Palm trees repositioned to not overlap with text -->
+    <div class="absolute top-2 left-0 palm-tree">🌴</div>
+    <div class="absolute top-2 right-0 palm-tree">🌴</div>
+    
+    <div class="text-center mb-2 mt-8">
+        <span class="company-name">TOURS AVENTURAS POR LA BAJA</span>
+    </div>
     
     <h1 class="text-4xl font-bold text-center mb-4 text-blue-600 game-title">🏝️ Puertas Mágicas 🏝️</h1>
     <p class="text-center text-lg mb-6">¡Abre puertas, gana premios y descubre la magia!</p>
@@ -370,7 +464,7 @@
     
     <div id="stats" class="flex justify-between mb-6 p-4 bg-gradient-to-r from-yellow-300 to-orange-500 rounded-lg shadow-lg">
         <div class="text-xl font-semibold flex items-center">
-            <span class="mr-2">🏆</span> Nivel: <span id="level" class="ml-1 text-2xl">1</span>/4
+            <span class="mr-2">🏆</span> Nivel: <span id="level" class="ml-1 text-2xl">1</span>/5
         </div>
         <div class="text-xl font-semibold flex items-center">
             <span class="mr-2">💰</span> Ganancia: <span id="money" class="ml-1 text-2xl">0</span> pesos
@@ -378,7 +472,7 @@
     </div>
     
     <div id="message" class="text-center mb-6 text-xl font-medium text-white bg-gradient-to-r from-blue-500 to-purple-600 p-4 rounded-lg shadow-md">
-        <span class="mr-2">🚪</span> Elige una puerta para ganar 10 pesos. ¡La aventura te espera!
+        <span class="mr-2">🚪</span> Elige una puerta para ganar 20 pesos. ¡La aventura te espera!
     </div>
     
     <div id="doors-container" class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
@@ -392,12 +486,35 @@
             <span class="text-3xl">🎉</span>
         </div>
         <p class="text-xl font-semibold">¡Última ronda! Si ganas, recibirás un premio especial:</p>
-        <p class="text-2xl font-bold text-red-600 mt-2">100 pesos de descuento o un vino gratis</p>
+        <p class="text-2xl font-bold text-red-600 mt-2">¡Un premio sorpresa te espera!</p>
+    </div>
+    
+    <!-- Catafixia Container -->
+    <div id="catafixia-container" class="hidden catafixia-container mb-6 text-center">
+        <h3 class="text-3xl font-bold mb-3 catafixia-title">¡CATAFIXIA! <span class="catafixia-icon">🎰</span></h3>
+        <p class="text-xl text-white mb-4">¿Te atreves a arriesgar todo por el GRAN PREMIO?</p>
+        <div class="mb-4">
+            <p class="text-lg text-white mb-2">Si aceptas, podrías ganar:</p>
+            <p class="mega-prize text-2xl mb-3">🏆 VIAJE GRATIS A RUTA DEL VINO 🏆</p>
+        </div>
+        <div class="flex justify-center space-x-4">
+            <button id="reject-catafixia" class="bg-gradient-to-r from-gray-600 to-gray-800 hover:from-gray-700 hover:to-gray-900 text-white font-bold py-3 px-6 rounded-lg transition duration-300 shadow-md">
+                No, gracias
+            </button>
+            <button id="accept-catafixia" class="vibrant-button py-3 px-6">
+                ¡Acepto el reto!
+            </button>
+        </div>
     </div>
     
     <button id="restart-button" class="hidden mx-auto block vibrant-button text-xl py-3 px-8">
         🔄 Jugar de nuevo
     </button>
+    
+    <!-- Disclaimer -->
+    <div class="disclaimer mt-8">
+        <p>Este juego es con fin recreativo. El uso del mismo así como participación en la dinámica se deja a discreción del cliente final. Todos los derechos reservados para ToursAventurasPorLaBaja.</p>
+    </div>
 </div>
 
 <!-- Confirmation Modal -->
@@ -419,6 +536,11 @@
 <!-- Result Modal -->
 <div id="result-modal" class="hidden fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50 p-4">
     <div class="modal bg-white rounded-xl p-8 max-w-md w-full mx-4 shadow-2xl border-4 border-yellow-400">
+        <!-- Company name in modal - smaller size -->
+        <div class="text-center mb-3">
+            <span class="company-name text-lg">TOURS AVENTURAS POR LA BAJA</span>
+        </div>
+        
         <!-- Player info bar (always visible) -->
         <div class="player-info-bar">
             <div class="flex justify-between items-center">
@@ -435,7 +557,7 @@
         
         <div id="result-icon" class="prize-icon text-center">🎉</div>
         <h3 id="result-title" class="text-3xl font-bold mb-4 text-center">¡Felicidades!</h3>
-        <p id="result-message" class="text-xl mb-3 text-center">Has ganado 10 pesos.</p>
+        <p id="result-message" class="text-xl mb-3 text-center">Has ganado 20 pesos.</p>
         
         <!-- Loss details (hidden by default) -->
         <div id="loss-details" class="hidden">
@@ -467,10 +589,17 @@
             '#33FFF5'  // Turquoise
         ],
         doorEmojis: ['🏖️', '🌮', '🌵', '🍹', '🐠', '🏄‍♂️', '🌊', '🐚', '🐬'],
-        winProbability: 0.38, // Increased by 5%
+        winProbability: 0.40, // Updated to 40% chance to win
+        catafixiaProbability: 0.02, // 2% chance to win the grand prize
         correctCode: '13062025',
         userName: '',
-        userPhone: ''
+        userPhone: '',
+        // New prize structure
+        levelPrizes: [20, 30, 50, 0], // Level 4 prize is special (random)
+        finalPrizes: ['Paseo en barco ⛵', 'Vino gratis 🍷', '50 pesos de descuento 💰', 'Premio sorpresa 🎁'],
+        grandPrize: 'Viaje gratis a Ruta del Vino 🍇',
+        // Track accumulated winnings from first 3 levels
+        accumulatedWinnings: 0
     };
     
     // DOM elements - Login screens
@@ -495,6 +624,9 @@
     const moneyDisplay = document.getElementById('money');
     const messageDisplay = document.getElementById('message');
     const finalPrizeDisplay = document.getElementById('final-prize');
+    const catafixiaContainer = document.getElementById('catafixia-container');
+    const acceptCatafixiaButton = document.getElementById('accept-catafixia');
+    const rejectCatafixiaButton = document.getElementById('reject-catafixia');
     const restartButton = document.getElementById('restart-button');
     const confirmationModal = document.getElementById('confirmation-modal');
     const cancelChoiceButton = document.getElementById('cancel-choice');
@@ -570,10 +702,12 @@
     function initGame() {
         gameState.level = 1;
         gameState.money = 0;
+        gameState.accumulatedWinnings = 0; // Reset accumulated winnings
         updateDisplay();
         generateDoors();
         restartButton.classList.add('hidden');
         finalPrizeDisplay.classList.add('hidden');
+        catafixiaContainer.classList.add('hidden');
     }
     
     // Update display
@@ -584,14 +718,23 @@
         if (gameState.level === 4) {
             finalPrizeDisplay.classList.remove('hidden');
             messageDisplay.innerHTML = "<span class='mr-2'>🎯</span> ¡Última ronda! Elige una puerta para ganar un premio especial.";
+        } else if (gameState.level === 5) {
+            // Catafixia level
+            catafixiaContainer.classList.remove('hidden');
+            messageDisplay.innerHTML = "<span class='mr-2'>🎰</span> ¡Nivel CATAFIXIA! Decide si quieres arriesgar todo por el gran premio.";
+            doorsContainer.innerHTML = ''; // Hide doors in catafixia level
         } else {
-            messageDisplay.innerHTML = `<span class='mr-2'>🚪</span> Elige una puerta para ganar 10 pesos. ¡La aventura te espera!`;
+            const currentPrize = gameState.levelPrizes[gameState.level - 1];
+            messageDisplay.innerHTML = `<span class='mr-2'>🚪</span> Elige una puerta para ganar <span class="prize-amount">${currentPrize} pesos</span>. ¡La aventura te espera!`;
         }
     }
     
     // Generate doors
     function generateDoors() {
         doorsContainer.innerHTML = '';
+        
+        // Don't show doors in catafixia level
+        if (gameState.level === 5) return;
         
         // Shuffle colors and emojis
         const shuffledColors = [...gameState.doorColors].sort(() => Math.random() - 0.5);
@@ -638,7 +781,7 @@
         resultPlayerName.textContent = gameState.userName;
         resultPlayerPhone.textContent = gameState.userPhone;
         
-        // Determine if player wins (38% chance)
+        // Determine if player wins (40% chance)
         const isWin = Math.random() < gameState.winProbability;
         
         if (isWin) {
@@ -646,18 +789,28 @@
             lossDetails.classList.add('hidden');
             
             if (gameState.level === 4) {
-                // Final level special prize
-                const isMoney = Math.random() < 0.5;
-                if (isMoney) {
-                    showResult(true, "¡PREMIO ESPECIAL! 🎊", "Has ganado 100 pesos de descuento para tu próxima aventura.", "💰");
-                } else {
-                    showResult(true, "¡PREMIO ESPECIAL! 🎊", "Has ganado un vino gratis de la región.", "🍷");
-                }
-                gameState.money += 10;
+                // Level 4 - Random special prize
+                const randomPrizeIndex = Math.floor(Math.random() * gameState.finalPrizes.length);
+                const randomPrize = gameState.finalPrizes[randomPrizeIndex];
+                
+                let prizeIcon = "🎁";
+                if (randomPrize.includes("barco")) prizeIcon = "⛵";
+                else if (randomPrize.includes("vino")) prizeIcon = "🍷";
+                else if (randomPrize.includes("descuento")) prizeIcon = "💰";
+                
+                showResult(true, "¡PREMIO ESPECIAL! 🎊", `Has ganado: ${randomPrize}`, prizeIcon);
+                gameState.money += 50; // Add some money for the final level
             } else {
-                // Regular win
-                gameState.money += 10;
-                showResult(true, "¡GANASTE! 🎉", `Has ganado 10 pesos. Total: ${gameState.money} pesos.`, "🏆");
+                // Regular win with updated prize amounts
+                const currentPrize = gameState.levelPrizes[gameState.level - 1];
+                gameState.money += currentPrize;
+                
+                // Track accumulated winnings from first 3 levels
+                if (gameState.level <= 3) {
+                    gameState.accumulatedWinnings += currentPrize;
+                }
+                
+                showResult(true, "¡GANASTE! 🎉", `Has ganado ${currentPrize} pesos. Total: ${gameState.money} pesos.`, "🏆");
             }
             createConfetti();
         } else {
@@ -666,9 +819,46 @@
             folioNumber.textContent = newFolio;
             lossDetails.classList.remove('hidden');
             
-            showResult(false, "¡Has perdido! 🌊", "Explorar siempre será para los valientes. ¡Inténtalo de nuevo!", "🧭");
-            gameState.money = 0;
+            // If level 4, show how much they lost from previous levels
+            if (gameState.level === 4) {
+                showResult(false, "¡Has perdido! 🌊", `Has perdido los ${gameState.accumulatedWinnings} pesos que habías ganado. Explorar siempre será para los valientes.`, "🧭");
+            } else {
+                showResult(false, "¡Has perdido! 🌊", "Explorar siempre será para los valientes. ¡Inténtalo de nuevo!", "🧭");
+            }
+            gameState.money = 0; // Reset money to 0 when player loses
         }
+    }
+    
+    // Process catafixia choice
+    function processCatafixiaChoice(accepted) {
+        if (accepted) {
+            // Player accepted the catafixia challenge
+            const isWin = Math.random() < gameState.catafixiaProbability; // 2% chance
+            
+            if (isWin) {
+                // Won the grand prize!
+                showResult(true, "¡INCREÍBLE! 🎊🎊🎊", `¡Has ganado el GRAN PREMIO: ${gameState.grandPrize}!`, "🏆");
+                createConfetti();
+                // Create extra confetti for the grand prize
+                setTimeout(() => {
+                    createConfetti();
+                }, 500);
+            } else {
+                // Lost everything
+                const newFolio = generateFolioNumber();
+                folioNumber.textContent = newFolio;
+                lossDetails.classList.remove('hidden');
+                
+                showResult(false, "¡Has perdido! 😢", "La suerte no estuvo de tu lado esta vez. ¡Gracias por jugar!", "🎰");
+                gameState.money = 0; // Reset money to 0 when player loses
+            }
+        } else {
+            // Player rejected the catafixia challenge - they keep their winnings
+            showResult(true, "¡Decisión sabia! 👍", `Te quedas con tus ${gameState.money} pesos. ¡Gracias por jugar!`, "💰");
+        }
+        
+        // Hide catafixia container
+        catafixiaContainer.classList.add('hidden');
     }
     
     // Show result modal
@@ -700,8 +890,10 @@
             restartButton.classList.remove('hidden');
             messageDisplay.innerHTML = "<span class='mr-2'>🔄</span> ¡Juego terminado! Puedes volver a jugar.";
             doorsContainer.innerHTML = '';
+            catafixiaContainer.classList.add('hidden');
+            moneyDisplay.textContent = "0"; // Ensure money display shows 0
         } else {
-            if (gameState.level < 4) {
+            if (gameState.level < 5) {
                 gameState.level++;
                 updateDisplay();
                 generateDoors();
@@ -710,6 +902,7 @@
                 messageDisplay.innerHTML = "<span class='mr-2'>🏆</span> ¡Felicidades! Has completado el juego.";
                 restartButton.classList.remove('hidden');
                 doorsContainer.innerHTML = '';
+                catafixiaContainer.classList.add('hidden');
             }
         }
     }
@@ -766,7 +959,10 @@
     confirmChoiceButton.addEventListener('click', processDoorSelection);
     continueButton.addEventListener('click', continueGame);
     restartButton.addEventListener('click', initGame);
-
- </script>
+    
+    // Catafixia event listeners
+    acceptCatafixiaButton.addEventListener('click', () => processCatafixiaChoice(true));
+    rejectCatafixiaButton.addEventListener('click', () => processCatafixiaChoice(false));
+</script>
 </body>
 </html>
