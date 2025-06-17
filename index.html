@@ -7,12 +7,15 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;700&display=swap" rel="stylesheet">
     <style>
- body {
+  body {
         font-family: 'Baloo 2', cursive;
-        background: linear-gradient(135deg, #00c3ff, #ff8a00);
+        background: linear-gradient(135deg, #00d4ff, #ff00aa);
         min-height: 100vh;
         background-size: 400% 400%;
         animation: gradient 15s ease infinite;
+        margin: 0;
+        padding: 0;
+        overflow-x: hidden;
     }
     
     @keyframes gradient {
@@ -29,7 +32,7 @@
         overflow: hidden;
     }
     
-    .door:hover {
+    .door:hover, .door:active {
         transform: scale(1.05) rotate(2deg);
         box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
     }
@@ -127,14 +130,14 @@
         left: 0;
         width: 100%;
         height: 80px;
-        background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 120' preserveAspectRatio='none'%3E%3Cpath d='M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,32.43,512.34,53.67,583,72.05c69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113-14.29,1200,52.47V0Z' fill='%2300b4db' opacity='.25'%3E%3C/path%3E%3Cpath d='M0,0V15.81C13,36.92,27.64,56.86,47.69,72.05,99.41,111.27,165,111,224.58,91.58c31.15-10.15,60.09-26.07,89.67-39.8,40.92-19,84.73-46,130.83-49.67,36.26-2.85,70.9,9.42,98.6,31.56,31.77,25.39,62.32,62,103.63,73,40.44,10.79,81.35-6.69,119.13-24.28s75.16-39,116.92-43.05c59.73-5.85,113.28,22.88,168.9,38.84,30.2,8.66,59,6.17,87.09-7.5,22.43-10.89,48-26.93,60.65-49.24V0Z' fill='%2300b4db' opacity='.5'%3E%3C/path%3E%3Cpath d='M0,0V5.63C149.93,59,314.09,71.32,475.83,42.57c43-7.64,84.23-20.12,127.61-26.46,59-8.63,112.48,12.24,165.56,35.4C827.93,77.22,886,95.24,951.2,90c86.53-7,172.46-45.71,248.8-84.81V0Z' fill='%2300b4db' opacity='.75'%3E%3C/path%3E%3C/svg%3E");
+        background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 120' preserveAspectRatio='none'%3E%3Cpath d='M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,32.43,512.34,53.67,583,72.05c69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113-14.29,1200,52.47V0Z' fill='%2300d4ff' opacity='.25'%3E%3C/path%3E%3Cpath d='M0,0V15.81C13,36.92,27.64,56.86,47.69,72.05,99.41,111.27,165,111,224.58,91.58c31.15-10.15,60.09-26.07,89.67-39.8,40.92-19,84.73-46,130.83-49.67,36.26-2.85,70.9,9.42,98.6,31.56,31.77,25.39,62.32,62,103.63,73,40.44,10.79,81.35-6.69,119.13-24.28s75.16-39,116.92-43.05c59.73-5.85,113.28,22.88,168.9,38.84,30.2,8.66,59,6.17,87.09-7.5,22.43-10.89,48-26.93,60.65-49.24V0Z' fill='%2300d4ff' opacity='.5'%3E%3C/path%3E%3Cpath d='M0,0V5.63C149.93,59,314.09,71.32,475.83,42.57c43-7.64,84.23-20.12,127.61-26.46,59-8.63,112.48,12.24,165.56,35.4C827.93,77.22,886,95.24,951.2,90c86.53-7,172.46-45.71,248.8-84.81V0Z' fill='%2300d4ff' opacity='.75'%3E%3C/path%3E%3C/svg%3E");
         background-size: cover;
         background-repeat: no-repeat;
         z-index: -1;
     }
     
     .game-title {
-        text-shadow: 3px 3px 0 #ff8a00, 6px 6px 0 rgba(0,0,0,0.2);
+        text-shadow: 3px 3px 0 #ff00aa, 6px 6px 0 rgba(0,0,0,0.2);
         letter-spacing: 1px;
     }
     
@@ -172,18 +175,7 @@
         10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
         20%, 40%, 60%, 80% { transform: translateX(5px); }
     }
-    .win-folio {
-    font-family: 'Courier New', monospace;
-    letter-spacing: 2px;
-    font-weight: bold;
-    background: #f8f8f8;
-    border: 2px dashed #4CAF50; /* Verde para ganar */
-    padding: 8px 16px;
-    border-radius: 8px;
-    display: inline-block;
-    margin: 10px 0;
-    box-shadow: 0 3px 6px rgba(0,0,0,0.1);
-}
+    
     .folio-number {
         font-family: 'Courier New', monospace;
         letter-spacing: 2px;
@@ -208,35 +200,159 @@
         50% { opacity: 0.7; }
         100% { opacity: 1; }
     }
+    
+    /* Mobile optimizations */
+    @media (max-width: 640px) {
+        .door {
+            height: 200px !important;
+        }
+        
+        .door-emoji {
+            font-size: 2.5rem;
+        }
+        
+        .game-title {
+            font-size: 2rem !important;
+        }
+        
+        .palm-tree {
+            font-size: 2rem;
+        }
+    }
+    
+    /* Vibrant button styles */
+    .vibrant-button {
+        background: linear-gradient(135deg, #ff00aa, #00d4ff);
+        color: white;
+        font-weight: bold;
+        border-radius: 12px;
+        padding: 12px 24px;
+        transition: all 0.3s;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        border: none;
+        outline: none;
+    }
+    
+    .vibrant-button:hover, .vibrant-button:focus {
+        background: linear-gradient(135deg, #ff00dd, #00a0ff);
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+    }
+    
+    .vibrant-button:active {
+        transform: translateY(1px);
+    }
+    
+    /* Vibrant input styles */
+    .vibrant-input {
+        border: 3px solid #ff00aa;
+        border-radius: 12px;
+        padding: 12px 16px;
+        transition: all 0.3s;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        background-color: rgba(255, 255, 255, 0.9);
+    }
+    
+    .vibrant-input:focus {
+        border-color: #00d4ff;
+        box-shadow: 0 4px 15px rgba(0, 212, 255, 0.3);
+        outline: none;
+    }
+    
+    /* Vibrant keypad */
+    .vibrant-keypad button {
+        background: linear-gradient(135deg, #ff00aa, #ff6a00);
+        color: white;
+        font-weight: bold;
+        border-radius: 12px;
+        transition: all 0.2s;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    }
+    
+    .vibrant-keypad button:hover, .vibrant-keypad button:focus {
+        background: linear-gradient(135deg, #ff00dd, #ff8c00);
+        transform: translateY(-2px);
+    }
+    
+    .vibrant-keypad button:active {
+        transform: translateY(1px);
+    }
+    
+    /* Player info in modal */
+    .player-info-bar {
+        background: linear-gradient(135deg, #6a11cb, #2575fc);
+        color: white;
+        border-radius: 8px;
+        padding: 10px;
+        margin-bottom: 15px;
+        box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+        animation: fadeIn 0.5s ease-out;
+    }
+    
+    .player-info-label {
+        font-weight: bold;
+        color: rgba(255,255,255,0.8);
+    }
+    
+    .player-info-value {
+        font-weight: bold;
+    }
 </style>
-
-<!-- Login Screen -->
-<div id="login-screen" class="login-screen w-full max-w-md bg-white bg-opacity-95 rounded-xl p-8 shadow-2xl relative overflow-hidden">
+<!-- Login Screen - Password -->
+<div id="login-screen-password" class="login-screen w-full max-w-md bg-white bg-opacity-95 rounded-xl p-6 shadow-2xl relative overflow-hidden">
     <div class="absolute top-2 left-4 palm-tree">🌴</div>
     <div class="absolute top-2 right-4 palm-tree">🌴</div>
     
     <h1 class="text-4xl font-bold text-center mb-6 text-blue-600 game-title">🏝️ Puertas Mágicas 🏝️</h1>
     
     <div class="mb-6 text-center">
-        <p class="text-lg mb-2">Ingresa el código para comenzar:</p>
-        <input type="password" id="code-input" class="code-input w-full p-4 border-2 border-blue-400 rounded-lg mb-4 bg-blue-50 focus:outline-none focus:border-blue-600" maxlength="8" readonly>
+        <p class="text-lg mb-2 font-bold text-purple-700">Ingresa el código para comenzar:</p>
+        <input type="password" id="code-input" class="code-input w-full p-4 vibrant-input mb-4" maxlength="8" readonly>
         
-        <div class="grid grid-cols-3 gap-2 mb-4">
-            <button class="key-button bg-blue-500 hover:bg-blue-600 text-white text-2xl font-bold p-4 rounded-lg shadow-md">1</button>
-            <button class="key-button bg-blue-500 hover:bg-blue-600 text-white text-2xl font-bold p-4 rounded-lg shadow-md">2</button>
-            <button class="key-button bg-blue-500 hover:bg-blue-600 text-white text-2xl font-bold p-4 rounded-lg shadow-md">3</button>
-            <button class="key-button bg-blue-500 hover:bg-blue-600 text-white text-2xl font-bold p-4 rounded-lg shadow-md">4</button>
-            <button class="key-button bg-blue-500 hover:bg-blue-600 text-white text-2xl font-bold p-4 rounded-lg shadow-md">5</button>
-            <button class="key-button bg-blue-500 hover:bg-blue-600 text-white text-2xl font-bold p-4 rounded-lg shadow-md">6</button>
-            <button class="key-button bg-blue-500 hover:bg-blue-600 text-white text-2xl font-bold p-4 rounded-lg shadow-md">7</button>
-            <button class="key-button bg-blue-500 hover:bg-blue-600 text-white text-2xl font-bold p-4 rounded-lg shadow-md">8</button>
-            <button class="key-button bg-blue-500 hover:bg-blue-600 text-white text-2xl font-bold p-4 rounded-lg shadow-md">9</button>
-            <button class="key-button bg-blue-500 hover:bg-blue-600 text-white text-2xl font-bold p-4 rounded-lg shadow-md">0</button>
-            <button id="submit-code" class="col-span-1 bg-green-500 hover:bg-green-600 text-white text-xl font-bold p-4 rounded-lg shadow-md">✓</button>
-            <button id="clear-code" class="col-span-1 bg-red-500 hover:bg-red-600 text-white text-xl font-bold p-4 rounded-lg shadow-md">⌫</button>
+        <div class="grid grid-cols-3 gap-2 mb-4 vibrant-keypad">
+            <button class="key-button text-2xl font-bold p-4 rounded-lg shadow-md">1</button>
+            <button class="key-button text-2xl font-bold p-4 rounded-lg shadow-md">2</button>
+            <button class="key-button text-2xl font-bold p-4 rounded-lg shadow-md">3</button>
+            <button class="key-button text-2xl font-bold p-4 rounded-lg shadow-md">4</button>
+            <button class="key-button text-2xl font-bold p-4 rounded-lg shadow-md">5</button>
+            <button class="key-button text-2xl font-bold p-4 rounded-lg shadow-md">6</button>
+            <button class="key-button text-2xl font-bold p-4 rounded-lg shadow-md">7</button>
+            <button class="key-button text-2xl font-bold p-4 rounded-lg shadow-md">8</button>
+            <button class="key-button text-2xl font-bold p-4 rounded-lg shadow-md">9</button>
+            <button class="key-button text-2xl font-bold p-4 rounded-lg shadow-md">0</button>
+            <button id="submit-code" class="col-span-1 bg-gradient-to-r from-green-500 to-green-600 text-xl font-bold p-4 rounded-lg shadow-md">✓</button>
+            <button id="clear-code" class="col-span-1 bg-gradient-to-r from-red-500 to-red-600 text-xl font-bold p-4 rounded-lg shadow-md">⌫</button>
         </div>
         
         <p id="login-message" class="text-red-500 font-medium hidden">Código incorrecto. Intenta de nuevo.</p>
+    </div>
+</div>
+
+<!-- Login Screen - User Info -->
+<div id="login-screen-info" class="hidden login-screen w-full max-w-md bg-white bg-opacity-95 rounded-xl p-6 shadow-2xl relative overflow-hidden">
+    <div class="absolute top-2 left-4 palm-tree">🌴</div>
+    <div class="absolute top-2 right-4 palm-tree">🌴</div>
+    
+    <h1 class="text-4xl font-bold text-center mb-6 text-blue-600 game-title">🏝️ Puertas Mágicas 🏝️</h1>
+    
+    <div class="mb-6">
+        <p class="text-lg mb-4 font-bold text-center text-purple-700">¡Código correcto! Completa tus datos:</p>
+        
+        <div class="mb-4">
+            <label for="user-name" class="block text-lg font-medium text-gray-700 mb-2">Nombre completo:</label>
+            <input type="text" id="user-name" class="w-full p-4 vibrant-input" placeholder="Escribe tu nombre aquí">
+        </div>
+        
+        <div class="mb-6">
+            <label for="user-phone" class="block text-lg font-medium text-gray-700 mb-2">Número de teléfono:</label>
+            <input type="tel" id="user-phone" class="w-full p-4 vibrant-input" placeholder="Ej: 123-456-7890">
+        </div>
+        
+        <button id="submit-info" class="w-full vibrant-button text-xl py-4">
+            ¡Comenzar Juego! 🎮
+        </button>
+        
+        <p id="info-message" class="text-red-500 font-medium mt-3 hidden">Por favor completa todos los campos.</p>
     </div>
 </div>
 
@@ -248,7 +364,11 @@
     <h1 class="text-4xl font-bold text-center mb-4 text-blue-600 game-title">🏝️ Puertas Mágicas 🏝️</h1>
     <p class="text-center text-lg mb-6">¡Abre puertas, gana premios y descubre la magia!</p>
     
-    <div id="stats" class="flex justify-between mb-6 p-4 bg-gradient-to-r from-yellow-300 to-orange-400 rounded-lg shadow-lg">
+    <div id="user-info-display" class="mb-4 p-3 bg-gradient-to-r from-purple-400 to-pink-500 rounded-lg text-white shadow-lg">
+        <p class="text-center font-medium">Jugador: <span id="display-name">Nombre</span> | Tel: <span id="display-phone">Teléfono</span></p>
+    </div>
+    
+    <div id="stats" class="flex justify-between mb-6 p-4 bg-gradient-to-r from-yellow-300 to-orange-500 rounded-lg shadow-lg">
         <div class="text-xl font-semibold flex items-center">
             <span class="mr-2">🏆</span> Nivel: <span id="level" class="ml-1 text-2xl">1</span>/4
         </div>
@@ -257,15 +377,15 @@
         </div>
     </div>
     
-    <div id="message" class="text-center mb-6 text-xl font-medium text-blue-700 bg-blue-100 p-4 rounded-lg shadow-md">
+    <div id="message" class="text-center mb-6 text-xl font-medium text-white bg-gradient-to-r from-blue-500 to-purple-600 p-4 rounded-lg shadow-md">
         <span class="mr-2">🚪</span> Elige una puerta para ganar 10 pesos. ¡La aventura te espera!
     </div>
     
-    <div id="doors-container" class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+    <div id="doors-container" class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
         <!-- Doors will be generated here -->
     </div>
     
-    <div id="final-prize" class="hidden text-center p-5 bg-gradient-to-r from-yellow-200 to-yellow-400 rounded-lg mb-6 shadow-lg">
+    <div id="final-prize" class="hidden text-center p-5 bg-gradient-to-r from-yellow-300 to-yellow-500 rounded-lg mb-6 shadow-lg">
         <div class="flex justify-center space-x-4 mb-2">
             <span class="text-3xl">🎁</span>
             <span class="text-3xl">🏆</span>
@@ -275,23 +395,21 @@
         <p class="text-2xl font-bold text-red-600 mt-2">100 pesos de descuento o un vino gratis</p>
     </div>
     
-    <button id="restart-button" class="hidden mx-auto block bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white font-bold py-3 px-8 rounded-lg transition duration-300 shadow-lg text-xl">
+    <button id="restart-button" class="hidden mx-auto block vibrant-button text-xl py-3 px-8">
         🔄 Jugar de nuevo
     </button>
-    
-    <div class="beach-decoration"></div>
 </div>
 
 <!-- Confirmation Modal -->
-<div id="confirmation-modal" class="hidden fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50">
+<div id="confirmation-modal" class="hidden fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50 p-4">
     <div class="modal bg-white rounded-xl p-6 max-w-md w-full mx-4 shadow-2xl border-4 border-yellow-400">
         <h3 class="text-2xl font-bold text-center mb-4 text-blue-600">¿Estás seguro? 🤔</h3>
         <p class="text-center mb-6 text-lg">Si pierdes, perderás todo lo que has ganado hasta ahora.</p>
-        <div class="flex justify-center space-x-4">
-            <button id="cancel-choice" class="bg-gray-500 hover:bg-gray-600 text-white font-bold py-3 px-6 rounded-lg transition duration-300 shadow-md">
+        <div class="flex flex-wrap justify-center gap-4">
+            <button id="cancel-choice" class="bg-gradient-to-r from-gray-500 to-gray-600 hover:from-gray-600 hover:to-gray-700 text-white font-bold py-3 px-6 rounded-lg transition duration-300 shadow-md">
                 ❌ Cancelar
             </button>
-            <button id="confirm-choice" class="bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white font-bold py-3 px-6 rounded-lg transition duration-300 shadow-md">
+            <button id="confirm-choice" class="vibrant-button py-3 px-6">
                 ✅ Confirmar
             </button>
         </div>
@@ -299,8 +417,22 @@
 </div>
 
 <!-- Result Modal -->
-<div id="result-modal" class="hidden fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50">
+<div id="result-modal" class="hidden fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50 p-4">
     <div class="modal bg-white rounded-xl p-8 max-w-md w-full mx-4 shadow-2xl border-4 border-yellow-400">
+        <!-- Player info bar (always visible) -->
+        <div class="player-info-bar">
+            <div class="flex justify-between items-center">
+                <div>
+                    <span class="player-info-label">Jugador:</span> 
+                    <span id="result-player-name" class="player-info-value">Nombre</span>
+                </div>
+                <div>
+                    <span class="player-info-label">Tel:</span> 
+                    <span id="result-player-phone" class="player-info-value">Teléfono</span>
+                </div>
+            </div>
+        </div>
+        
         <div id="result-icon" class="prize-icon text-center">🎉</div>
         <h3 id="result-title" class="text-3xl font-bold mb-4 text-center">¡Felicidades!</h3>
         <p id="result-message" class="text-xl mb-3 text-center">Has ganado 10 pesos.</p>
@@ -314,15 +446,13 @@
             </div>
         </div>
         
-        
-        <button id="continue-button" class="w-full bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white font-bold py-3 px-6 rounded-lg transition duration-300 shadow-md text-xl">
+        <button id="continue-button" class="w-full vibrant-button py-3 px-6 text-xl">
             Continuar 🚀
         </button>
     </div>
 </div>
 
 <script>
-
     // Game state
     const gameState = {
         level: 1,
@@ -338,18 +468,28 @@
         ],
         doorEmojis: ['🏖️', '🌮', '🌵', '🍹', '🐠', '🏄‍♂️', '🌊', '🐚', '🐬'],
         winProbability: 0.38, // Increased by 5%
-        correctCode: '13062025'
+        correctCode: '13062025',
+        userName: '',
+        userPhone: ''
     };
     
-    // DOM elements
-    const loginScreen = document.getElementById('login-screen');
-    const gameContainer = document.getElementById('game-container');
+    // DOM elements - Login screens
+    const loginScreenPassword = document.getElementById('login-screen-password');
+    const loginScreenInfo = document.getElementById('login-screen-info');
     const codeInput = document.getElementById('code-input');
     const submitCodeButton = document.getElementById('submit-code');
     const clearCodeButton = document.getElementById('clear-code');
     const loginMessage = document.getElementById('login-message');
     const keyButtons = document.querySelectorAll('.key-button');
+    const userNameInput = document.getElementById('user-name');
+    const userPhoneInput = document.getElementById('user-phone');
+    const submitInfoButton = document.getElementById('submit-info');
+    const infoMessage = document.getElementById('info-message');
     
+    // DOM elements - Game
+    const gameContainer = document.getElementById('game-container');
+    const displayName = document.getElementById('display-name');
+    const displayPhone = document.getElementById('display-phone');
     const doorsContainer = document.getElementById('doors-container');
     const levelDisplay = document.getElementById('level');
     const moneyDisplay = document.getElementById('money');
@@ -363,73 +503,18 @@
     const resultIcon = document.getElementById('result-icon');
     const resultTitle = document.getElementById('result-title');
     const resultMessage = document.getElementById('result-message');
+    const resultPlayerName = document.getElementById('result-player-name');
+    const resultPlayerPhone = document.getElementById('result-player-phone');
     const lossDetails = document.getElementById('loss-details');
     const folioNumber = document.getElementById('folio-number');
     const continueButton = document.getElementById('continue-button');
-      function processDoorSelection() {
-        hideConfirmationModal();
-        
-        // Determine if player wins (38% chance)
-        const isWin = Math.random() < gameState.winProbability;
-        const newFolio = generateFolioNumber(); // Generar folio siempre (lo usaremos si es necesario)
-        
-        if (isWin) {
-            if (gameState.level === 4) {
-                // Final level special prize
-                const isMoney = Math.random() < 0.5;
-                folioNumber.textContent = newFolio; // Mostrar folio también al ganar
-                lossDetails.classList.remove('hidden'); // Mostrar detalles del folio
-                
-                if (isMoney) {
-                    showResult(true, "¡PREMIO ESPECIAL! 🎊", 
-                             `Has ganado 100 pesos de descuento para tu próxima aventura.<br>Folio: ${newFolio}`, 
-                             "💰");
-                } else {
-                    showResult(true, "¡PREMIO ESPECIAL! 🎊", 
-                             `Has ganado un vino gratis de la región.<br>Folio: ${newFolio}`, 
-                             "🍷");
-                }
-                gameState.money += 10;
-            } else {
-                // Regular win
-                gameState.money += 10;
-                showResult(true, "¡GANASTE! 🎉", `Has ganado 10 pesos. Total: ${gameState.money} pesos.`, "🏆");
-            }
-            createConfetti();
-        } else {
-            // Loss with encouraging message and folio number
-            folioNumber.textContent = newFolio;
-            lossDetails.classList.remove('hidden');
-            
-            showResult(false, "¡Has perdido! 🌊", 
-                      `Explorar siempre será para los valientes. ¡Inténtalo de nuevo!<br>Folio: ${newFolio}`, 
-                      "🧭");
-            gameState.money = 0;
-        }
-    }
+    
     // Generate random 5-digit folio number
     function generateFolioNumber() {
         return Math.floor(10000 + Math.random() * 90000).toString();
     }
-	function showResult(isWin, title, message, icon) {
-    resultTitle.textContent = title;
-    resultMessage.innerHTML = message; // Cambiado a innerHTML para permitir <br>
-    resultIcon.textContent = icon;
     
-    if (isWin) {
-        resultTitle.className = "text-3xl font-bold mb-4 text-center text-green-600";
-        // Cambiar el estilo del folio para victorias
-        folioNumber.className = "win-folio";
-    } else {
-        resultTitle.className = "text-3xl font-bold mb-4 text-center text-red-600";
-        // Mantener el estilo original para derrotas
-        folioNumber.className = "folio-number";
-    }
-    
-    resultModal.classList.remove('hidden');
-}
-    
-    // Login functionality
+    // Login functionality - Password
     keyButtons.forEach(button => {
         button.addEventListener('click', () => {
             const value = button.textContent;
@@ -445,9 +530,8 @@
     
     submitCodeButton.addEventListener('click', () => {
         if (codeInput.value === gameState.correctCode) {
-            loginScreen.classList.add('hidden');
-            gameContainer.classList.remove('hidden');
-            initGame();
+            loginScreenPassword.classList.add('hidden');
+            loginScreenInfo.classList.remove('hidden');
         } else {
             loginMessage.classList.remove('hidden');
             codeInput.classList.add('shake');
@@ -456,7 +540,29 @@
             }, 500);
             setTimeout(() => {
                 codeInput.value = '';
-            }, 300);
+                loginMessage.classList.add('hidden');
+            }, 1500);
+        }
+    });
+    
+    // Login functionality - User Info
+    submitInfoButton.addEventListener('click', () => {
+        const name = userNameInput.value.trim();
+        const phone = userPhoneInput.value.trim();
+        
+        if (name && phone) {
+            gameState.userName = name;
+            gameState.userPhone = phone;
+            loginScreenInfo.classList.add('hidden');
+            gameContainer.classList.remove('hidden');
+            displayName.textContent = name;
+            displayPhone.textContent = phone;
+            initGame();
+        } else {
+            infoMessage.classList.remove('hidden');
+            setTimeout(() => {
+                infoMessage.classList.add('hidden');
+            }, 2000);
         }
     });
     
@@ -494,7 +600,7 @@
         // Create 3 doors
         for (let i = 0; i < 3; i++) {
             const door = document.createElement('div');
-            door.className = 'door relative h-80 cursor-pointer rounded-xl';
+            door.className = 'door relative h-64 cursor-pointer rounded-xl';
             door.innerHTML = `
                 <div class="door-front" style="background-color: ${shuffledColors[i]}">
                     <div class="text-white text-3xl font-bold mt-4 bg-black bg-opacity-30 px-4 py-2 rounded-lg">Puerta ${i + 1}</div>
@@ -527,6 +633,10 @@
     // Process door selection
     function processDoorSelection() {
         hideConfirmationModal();
+        
+        // Update player info in result modal
+        resultPlayerName.textContent = gameState.userName;
+        resultPlayerPhone.textContent = gameState.userPhone;
         
         // Determine if player wins (38% chance)
         const isWin = Math.random() < gameState.winProbability;
@@ -606,7 +716,7 @@
     
     // Create confetti effect
     function createConfetti() {
-        const colors = ['#FF5733', '#33A8FF', '#FF9F33', '#33FFB8', '#FF33A8', '#33FFF5'];
+        const colors = ['#FF5733', '#33A8FF', '#FF9F33', '#33FFB8', '#FF33A8', '#33FFF5', '#FF00AA', '#00D4FF'];
         
         for (let i = 0; i < 100; i++) {
             const confetti = document.createElement('div');
@@ -636,6 +746,20 @@
             }, 5000);
         }
     }
+    
+    // Format phone number as user types
+    userPhoneInput.addEventListener('input', function(e) {
+        let value = e.target.value.replace(/\D/g, '');
+        if (value.length > 10) value = value.slice(0, 10);
+        
+        if (value.length > 6) {
+            value = value.slice(0, 3) + '-' + value.slice(3, 6) + '-' + value.slice(6);
+        } else if (value.length > 3) {
+            value = value.slice(0, 3) + '-' + value.slice(3);
+        }
+        
+        e.target.value = value;
+    });
     
     // Event listeners
     cancelChoiceButton.addEventListener('click', hideConfirmationModal);
