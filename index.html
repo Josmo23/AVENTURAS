@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+    <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
@@ -792,7 +792,7 @@
             prizeListContainer.classList.remove('hidden');
             messageDisplay.innerHTML = `
                 <div class="upgrade-badge">¡Mejora tu premio!</div>
-                <span class='mr-2'>🎯</span> ¡Última ronda! Elige una puerta para ganar un premio especial.
+                <span class='mr-2'>🎯</span> ¡Última ronda! Elige una puerta para ganar un premio especial y no olvides tomar screenshot.
             `;
         } else if (gameState.level === 5) {
             // Catafixia level
@@ -800,7 +800,7 @@
             prizeListContainer.classList.add('hidden');
             messageDisplay.innerHTML = `
                 <div class="upgrade-badge">¡Mejora tu premio!</div>
-                <span class='mr-2'>🎰</span> ¡Nivel CATAFIXIA! Decide si quieres arriesgar todo por el gran premio.
+                <span class='mr-2'>🎰</span> ¡Nivel CATAFIXIA! Decide si quieres arriesgar todo por el gran premio no olvides hacer screenshot.
             `;
             doorsContainer.innerHTML = ''; // Hide doors in catafixia level
         } else {
