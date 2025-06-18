@@ -1055,6 +1055,70 @@
     // Catafixia event listeners
     acceptCatafixiaButton.addEventListener('click', () => processCatafixiaChoice(true));
     rejectCatafixiaButton.addEventListener('click', () => processCatafixiaChoice(false));
+    function continueGame() {
+    hideResultModal();
+    
+    if (gameState.money === 0) {
+        // Game over
+        restartButton.classList.remove('hidden');
+        messageDisplay.innerHTML = "<span class='mr-2'>🔄</span> ¡Juego terminado! Puedes volver a jugar.";
+        doorsContainer.innerHTML = '';
+        prizeListContainer.classList.add('hidden');
+        catafixiaContainer.classList.add('hidden');
+    } else {
+        if (gameState.level < 4) {
+            gameState.level++;
+            updateDisplay();
+            generateDoors();
+        } else if (gameState.level === 4) {
+            // Después del nivel 4, pasa al nivel 5 (Catafixia)
+            gameState.level = 5;
+            updateDisplay(); // Esto mostrará el contenedor de Catafixia
+        } else {
+            // Si ya completó la Catafixia, termina el juego
+            messageDisplay.innerHTML = "<span class='mr-2'>🏆</span> ¡Felicidades! Has completado el juego.";
+            restartButton.classList.remove('hidden');
+            doorsContainer.innerHTML = '';
+            prizeListContainer.classList.add('hidden');
+            catafixiaContainer.classList.add('hidden');
+        }
+    }
+}
+    function updateDisplay() {
+    levelDisplay.textContent = gameState.level;
+    moneyDisplay.textContent = gameState.money;
+    
+    if (gameState.level === 4) {
+        // Nivel 4: Premios especiales
+        finalPrizeDisplay.classList.remove('hidden');
+        prizeListContainer.classList.remove('hidden');
+        catafixiaContainer.classList.add('hidden'); // Asegúrate de que esté oculto
+        messageDisplay.innerHTML = `
+            <div class="upgrade-badge">¡Mejora tu premio!</div>
+            <span class='mr-2'>🎯</span> ¡Última ronda! Elige una puerta para ganar un premio especial.
+        `;
+    } else if (gameState.level === 5) {
+        // Nivel 5: Catafixia
+        finalPrizeDisplay.classList.add('hidden');
+        prizeListContainer.classList.add('hidden');
+        catafixiaContainer.classList.remove('hidden'); // Muestra la Catafixia
+        messageDisplay.innerHTML = `
+            <div class="upgrade-badge">¡Mejora tu premio!</div>
+            <span class='mr-2'>🎰</span> ¡Nivel CATAFIXIA! Decide si arriesgar todo por el premio mayor.
+        `;
+        doorsContainer.innerHTML = ''; // Oculta las puertas
+    } else {
+        // Niveles 1-3
+        finalPrizeDisplay.classList.add('hidden');
+        prizeListContainer.classList.add('hidden');
+        catafixiaContainer.classList.add('hidden');
+        const currentPrize = gameState.levelPrizes[gameState.level - 1];
+        messageDisplay.innerHTML = `
+            <div class="upgrade-badge">¡Mejora tu premio!</div>
+            <span class='mr-2'>🚪</span> Elige una puerta para ganar <span class="prize-amount">${currentPrize} pesos</span>.
+        `;
+    }
+}
 </script>
 </body>
 </html>
