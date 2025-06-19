@@ -1,590 +1,743 @@
-    <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Puertas Mágicas</title>
+    <title>Tours Aventuras por la Baja</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;700&display=swap" rel="stylesheet">
     <style>
-    /* Tus estilos CSS aquí (mantén todo el contenido del style) */
-	body {
-        font-family: 'Poppins', sans-serif;
-        background: linear-gradient(135deg, #1e3c72, #2a5298);
-        min-height: 100vh;
-        padding-top: 2rem;
-    }
-    
-    .door {
-        transition: transform 0.5s ease-in-out;
-        perspective: 1000px;
-        height: 280px;
-    }
-    
-    .door:hover {
-        transform: scale(1.05);
-        box-shadow: 0 0 20px rgba(255, 215, 0, 0.6);
-    }
-    
-    .door-inner {
-        transition: transform 0.8s;
-        transform-style: preserve-3d;
-        height: 100%;
-    }
-    
-    .door.open .door-inner {
-        transform: rotateY(-120deg);
-    }
-    
-    .door-front, .door-back {
-        backface-visibility: hidden;
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        border-radius: 12px;
-        overflow: hidden;
-    }
-    
-    .door-back {
-        transform: rotateY(180deg);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-    
-    .door-knob {
-        position: absolute;
-        width: 24px;
-        height: 24px;
-        background: radial-gradient(circle at 30% 30%, #ffd700, #b8860b);
-        border-radius: 50%;
-        right: 15px;
-        top: 50%;
-        transform: translateY(-50%);
-        box-shadow: 0 0 5px rgba(0,0,0,0.5);
-    }
-    
-    .door-frame {
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        border: 8px solid #8B4513;
-        border-radius: 12px;
-        pointer-events: none;
-    }
-    
-    .prize-box {
-        background: linear-gradient(135deg, rgba(255,255,255,0.2), rgba(255,255,255,0.1));
-        border-radius: 10px;
-        padding: 20px;
-        box-shadow: 0 8px 32px rgba(0,0,0,0.2);
-        backdrop-filter: blur(10px);
-        border: 1px solid rgba(255,255,255,0.2);
-        width: 90%;
-        max-width: 300px;
-        margin: 0 auto;
-    }
-    
-    .win-text {
-        text-shadow: 0 0 10px rgba(255,255,255,0.5);
-        animation: glow 1.5s infinite alternate;
-    }
-    
-    @keyframes glow {
-        from {
-            text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #0ff, 0 0 20px #0ff;
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #00b4db, #0083B0);
+            min-height: 100vh;
+            padding-top: 2rem;
+            color: white;
         }
-        to {
-            text-shadow: 0 0 10px #fff, 0 0 15px #4ff, 0 0 20px #4ff, 0 0 25px #4ff;
+        
+        .vacation-bg {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Cpath fill='%23ffffff' fill-opacity='0.1' d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z'%3E%3C/path%3E%3C/svg%3E"),
+                linear-gradient(135deg, #FF9D6C, #FF701F);
         }
-    }
-    
-    .confetti {
-        position: fixed;
-        width: 10px;
-        height: 10px;
-        background-color: #f00;
-        animation: confetti-fall 5s ease-in-out infinite;
-        z-index: 1000;
-    }
-    
-    @keyframes confetti-fall {
-        0% {
-            transform: translateY(-100vh) rotate(0deg);
-            opacity: 1;
+        
+        .tropical-bg {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'%3E%3Cpath fill='%23ffffff' fill-opacity='0.1' d='M14 16H9v-2h5V9.87a4 4 0 1 1 2 0V14h5v2h-5v15.95A10 10 0 0 0 23.66 27l-3.46-2 8.2-2.2-2.9 5a12 12 0 0 1-21 0l-2.89-5 8.2 2.2-3.47 2A10 10 0 0 0 14 31.95V16zm40 40h-5v-2h5v-4.13a4 4 0 1 1 2 0V54h5v2h-5v15.95A10 10 0 0 0 63.66 67l-3.47-2 8.2-2.2-2.88 5a12 12 0 0 1-21.02 0l-2.88-5 8.2 2.2-3.47 2A10 10 0 0 0 54 71.95V56zm-39 6a2 2 0 1 1 0-4 2 2 0 0 1 0 4zm40-40a2 2 0 1 1 0-4 2 2 0 0 1 0 4zM15 8a2 2 0 1 0 0-4 2 2 0 0 0 0 4zm40 40a2 2 0 1 0 0-4 2 2 0 0 0 0 4z'%3E%3C/path%3E%3C/svg%3E"),
+                linear-gradient(135deg, #43e97b, #38f9d7);
         }
-        100% {
-            transform: translateY(100vh) rotate(720deg);
-            opacity: 0;
+        
+        .beach-bg {
+            background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%23ffffff' fill-opacity='0.1'/%3E%3C/svg%3E"),
+                linear-gradient(135deg, #4facfe, #00f2fe);
         }
-    }
-    
-    .pulse {
-        animation: pulse 1.5s infinite;
-    }
-    
-    @keyframes pulse {
-        0% {
-            transform: scale(1);
+        
+        .door {
+            transition: transform 0.5s ease-in-out;
+            perspective: 1000px;
+            height: 280px;
         }
-        50% {
+        
+        .door:hover {
             transform: scale(1.05);
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.6);
         }
-        100% {
-            transform: scale(1);
+        
+        .door-inner {
+            transition: transform 0.8s;
+            transform-style: preserve-3d;
+            height: 100%;
         }
-    }
-    
-    .prize-icon {
-        font-size: 2.5rem;
-        margin-bottom: 0.5rem;
-    }
-    
-    .result-card {
-        background: rgba(255, 255, 255, 0.15);
-        backdrop-filter: blur(10px);
-        border-radius: 16px;
-        padding: 20px;
-        box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-        border: 1px solid rgba(255, 255, 255, 0.3);
-    }
-    
-    .result-item {
-        display: flex;
-        justify-content: space-between;
-        padding: 8px 0;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-    }
-    
-    .result-item:last-child {
-        border-bottom: none;
-    }
-    
-    .game-container {
-        max-width: 900px;
-        margin: 0 auto;
-        padding: 1rem;
-    }
-	/* Efecto de letras brillantes */
-.glow-title {
-    animation: textGlow 2s ease-in-out infinite alternate;
-}
-
-@keyframes textGlow {
-    from {
-        text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #ff0, 0 0 20px #ff0;
-    }
-    to {
-        text-shadow: 0 0 10px #fff, 0 0 20px #ff0, 0 0 30px #ff0, 0 0 40px #ff0;
-    }
-}
-
-/* Efecto de movimiento sutil */
-.float-title {
-    animation: float 3s ease-in-out infinite;
-}
-
-@keyframes float {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-10px); }
-}
+        
+        .door.open .door-inner {
+            transform: rotateY(-180deg); /* Changed to fully open */
+        }
+        
+        .door-front, .door-back {
+            backface-visibility: hidden;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+        
+        .door-back {
+            transform: rotateY(180deg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .door-knob {
+            position: absolute;
+            width: 24px;
+            height: 24px;
+            background: radial-gradient(circle at 30% 30%, #ffd700, #b8860b);
+            border-radius: 50%;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            box-shadow: 0 0 5px rgba(0,0,0,0.5);
+        }
+        
+        .door-frame {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border: 8px solid #8B4513;
+            border-radius: 12px;
+            pointer-events: none;
+        }
+        
+        .prize-box {
+            background: linear-gradient(135deg, rgba(255,255,255,0.2), rgba(255,255,255,0.1));
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.2);
+            width: 90%;
+            max-width: 300px;
+            margin: 0 auto;
+        }
+        
+        .win-text {
+            text-shadow: 0 0 10px rgba(255,255,255,0.5);
+            animation: glow 1.5s infinite alternate;
+        }
+        
+        @keyframes glow {
+            from {
+                text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #0ff, 0 0 20px #0ff;
+            }
+            to {
+                text-shadow: 0 0 10px #fff, 0 0 15px #4ff, 0 0 20px #4ff, 0 0 25px #4ff;
+            }
+        }
+        
+        .confetti {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            background-color: #f00;
+            animation: confetti-fall 5s ease-in-out infinite;
+            z-index: 1000;
+        }
+        
+        @keyframes confetti-fall {
+            0% {
+                transform: translateY(-100vh) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(100vh) rotate(720deg);
+                opacity: 0;
+            }
+        }
+        
+        .pulse {
+            animation: pulse 1.5s infinite;
+        }
+        
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+        
+        .prize-icon {
+            font-size: 3.5rem;
+            margin-bottom: 0.5rem;
+            filter: drop-shadow(0 0 5px rgba(255,255,255,0.5));
+        }
+        
+        .result-card {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
+            padding: 20px;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        .result-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .result-item:last-child {
+            border-bottom: none;
+        }
+        
+        .game-container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 1rem;
+        }
+        
+        .vacation-title {
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            background: linear-gradient(to right, #9333ea, #c026d3, #9333ea);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            animation: title-gradient 3s infinite;
+        }
+        
+        @keyframes title-gradient {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+        
+        .palm-tree {
+            position: absolute;
+            font-size: 3rem;
+            opacity: 0.2;
+            z-index: -1;
+        }
+        
+        .palm-1 {
+            top: 10%;
+            left: 5%;
+            transform: rotate(-15deg);
+        }
+        
+        .palm-2 {
+            bottom: 10%;
+            right: 5%;
+            transform: rotate(15deg);
+        }
+        
+        .floating {
+            animation: floating 3s ease-in-out infinite;
+        }
+        
+        @keyframes floating {
+            0% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+            100% {
+                transform: translateY(0px);
+            }
+        }
+        
+        .beach-decoration {
+            position: fixed;
+            z-index: -1;
+            opacity: 0.1;
+            font-size: 2.5rem;
+        }
+        
+        /* Title animation for door opening */
+        .title-letter {
+            display: inline-block;
+            opacity: 0;
+            transform: translateY(20px);
+            animation-fill-mode: forwards;
+            color: #9333ea; /* Vibrant purple */
+            text-shadow: 0 0 10px rgba(147, 51, 234, 0.5);
+            font-weight: bold;
+        }
+        
+        .title-reveal {
+            animation: letter-reveal 0.5s ease-out forwards;
+        }
+        
+        @keyframes letter-reveal {
+            0% {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* Purple theme for titles */
+        .purple-theme {
+            background: linear-gradient(to right, #9333ea, #c026d3);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
     </style>
 </head>
-<body>
-
-<div class="text-center mb-8">
-    <h1 class="text-4xl md:text-6xl font-extrabold mb-4"
-        style="background: linear-gradient(to right, #9d4edd, #c77dff, #e0aaff);
-               -webkit-background-clip: text;
-               -webkit-text-fill-color: transparent;
-               text-shadow: 0 0 8px rgba(157, 78, 221, 0.7);
-               animation: pulse-purple 2s infinite;">
-        Tours Aventuras por la Baja
-    </h1>
-    <p class="text-purple-300 text-lg">¡Gana premios increíbles!</p>
-</div>
-
-<style>
-    @keyframes pulse-purple {
-        0% { text-shadow: 0 0 8px rgba(157, 78, 221, 0.7); }
-        50% { text-shadow: 0 0 15px rgba(157, 78, 221, 0.9), 0 0 20px rgba(224, 170, 255, 0.6); }
-        100% { text-shadow: 0 0 8px rgba(157, 78, 221, 0.7); }
-    }
-</style>
-</div>
-    <!-- Registration Screen -->
-    <div id="registration" class="space-y-4 max-w-md mx-auto">
-        <div>
-            <label class="block text-sm font-medium mb-1">Folio de Acceso:</label>
-            <input type="text" id="folio-input" class="w-full px-4 py-2 rounded-lg bg-white/20 backdrop-blur-sm border border-white/30 focus:outline-none focus:ring-2 focus:ring-yellow-400" placeholder="Ingresa tu folio">
-            <p class="text-xs mt-1 text-yellow-200">Folio requerido: 18062025</p>
-        </div>
-        
-        <div>
-            <label class="block text-sm font-medium mb-1">Nombre Completo:</label>
-            <input type="text" id="name-input" class="w-full px-4 py-2 rounded-lg bg-white/20 backdrop-blur-sm border border-white/30 focus:outline-none focus:ring-2 focus:ring-yellow-400" placeholder="Ingresa tu nombre completo">
-        </div>
-        
-        <div>
-            <label class="block text-sm font-medium mb-1">Número de Teléfono:</label>
-            <input type="tel" id="phone-input" class="w-full px-4 py-2 rounded-lg bg-white/20 backdrop-blur-sm border border-white/30 focus:outline-none focus:ring-2 focus:ring-yellow-400" placeholder="10 dígitos" maxlength="10">
-        </div>
-        
-        <button id="start-button" class="w-full bg-gradient-to-r from-yellow-400 to-yellow-600 text-black font-bold py-3 px-6 rounded-lg mt-6 hover:from-yellow-300 hover:to-yellow-500 transition-all shadow-lg pulse">
-            ¡COMENZAR JUEGO!
-        </button>
-    </div>
-    <!-- Game Screen -->
-    <div id="game" class="hidden">
-        <div class="bg-white/10 backdrop-blur-md rounded-xl p-6 shadow-2xl mb-6 mx-auto max-w-4xl">
-            <h1 class="text-3xl font-bold text-center mb-2 text-yellow-300">Tours Aventuras por la Baja</h1>
-            <h2 id="level-title" class="text-2xl font-semibold text-center mb-4">Nivel 1</h2>
-            <div id="player-info" class="flex flex-col md:flex-row justify-between items-center mb-6 p-3 bg-white/5 rounded-lg">
+<body class="text-white">
+    <!-- Beach decorations -->
+    <div class="beach-decoration" style="top: 5%; left: 5%;">🏝️</div>
+    <div class="beach-decoration" style="top: 15%; right: 8%;">🌴</div>
+    <div class="beach-decoration" style="bottom: 20%; left: 10%;">🌊</div>
+    <div class="beach-decoration" style="bottom: 10%; right: 15%;">🏖️</div>
+    <div class="beach-decoration" style="top: 40%; left: 15%;">🌞</div>
+    <div class="beach-decoration" style="top: 60%; right: 5%;">🍹</div>
+    <div class="beach-decoration" style="bottom: 30%; left: 20%;">🐚</div>
+    <div class="beach-decoration" style="top: 25%; right: 20%;">🐠</div>
+    
+    <div id="game-container" class="game-container mt-8">
+        <!-- Registration Screen -->
+        <div id="registration" class="vacation-bg backdrop-blur-md rounded-xl p-6 shadow-2xl mx-auto max-w-2xl">
+            <div class="relative">
+                <h1 class="text-3xl md:text-4xl font-bold text-center mb-2 purple-theme" id="main-title">🏝️ Tours Aventuras por la Baja 🏝️</h1>
+                <h2 class="text-xl md:text-2xl font-semibold text-center mb-8 flex items-center justify-center">
+                    <span class="mr-2">🎁</span> ¡Juega y Gana Premios Increíbles! <span class="ml-2">🎁</span>
+                </h2>
+            </div>
+            
+            <div class="space-y-4 max-w-md mx-auto">
                 <div>
-                    <p><span class="font-semibold">Nombre:</span> <span id="player-name"></span></p>
-                    <p><span class="font-semibold">Folio:</span> <span id="player-folio"></span></p>
+                    <label class="block text-sm font-medium mb-1 flex items-center">
+                        <span class="mr-2">🎫</span> Folio de Acceso:
+                    </label>
+                    <input type="text" id="folio-input" class="w-full px-4 py-2 rounded-lg bg-white/20 backdrop-blur-sm border border-white/30 focus:outline-none focus:ring-2 focus:ring-yellow-400" placeholder="Ingresa tu folio">
+                    <p class="text-xs mt-1 text-yellow-200">Folio requerido: 18062025</p>
                 </div>
+                
                 <div>
-                    <p><span class="font-semibold">Teléfono:</span> <span id="player-phone"></span></p>
-                    <p id="winnings-container" class="hidden"><span class="font-semibold">Ganado:</span> <span id="player-winnings" class="text-yellow-300 font-bold">$0</span></p>
+                    <label class="block text-sm font-medium mb-1 flex items-center">
+                        <span class="mr-2">👤</span> Nombre Completo:
+                    </label>
+                    <input type="text" id="name-input" class="w-full px-4 py-2 rounded-lg bg-white/20 backdrop-blur-sm border border-white/30 focus:outline-none focus:ring-2 focus:ring-yellow-400" placeholder="Ingresa tu nombre completo">
                 </div>
-            </div>
-            
-            <p id="game-instructions" class="text-center mb-6 text-lg">Elige una puerta para descubrir tu premio. ¡Buena suerte!</p>
-            
-            <div id="doors-container" class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8 max-w-3xl mx-auto">
-                <!-- Doors will be generated here -->
-            </div>
-            
-            <div id="continue-container" class="hidden text-center">
-                <p class="mb-4 text-lg">¿Quieres mejorar tu premio?</p>
-                <div class="flex flex-col md:flex-row justify-center gap-4">
-                    <button id="continue-yes" class="bg-gradient-to-r from-green-500 to-green-700 text-white font-bold py-3 px-6 rounded-lg hover:from-green-400 hover:to-green-600 transition-all shadow-lg">
-                        ¡SÍ, QUIERO MÁS!
-                    </button>
-                    <button id="continue-no" class="bg-gradient-to-r from-red-500 to-red-700 text-white font-bold py-3 px-6 rounded-lg hover:from-red-400 hover:to-red-600 transition-all shadow-lg">
-                        NO, TOMAR PREMIO
-                    </button>
+                
+                <div>
+                    <label class="block text-sm font-medium mb-1 flex items-center">
+                        <span class="mr-2">📱</span> Número de Teléfono:
+                    </label>
+                    <input type="tel" id="phone-input" class="w-full px-4 py-2 rounded-lg bg-white/20 backdrop-blur-sm border border-white/30 focus:outline-none focus:ring-2 focus:ring-yellow-400" placeholder="10 dígitos" maxlength="10">
                 </div>
+                
+                <button id="start-button" class="w-full bg-gradient-to-r from-purple-500 to-purple-700 text-white font-bold py-3 px-6 rounded-lg mt-6 hover:from-purple-400 hover:to-purple-600 transition-all shadow-lg pulse flex items-center justify-center">
+                    <span class="mr-2">🎮</span> ¡COMENZAR JUEGO! <span class="ml-2">🎯</span>
+                </button>
             </div>
         </div>
-    </div>
-    
-    <!-- Result Screen -->
-    <div id="result" class="hidden bg-white/10 backdrop-blur-md rounded-xl p-6 shadow-2xl text-center mx-auto max-w-2xl">
-        <h2 id="result-title" class="text-3xl font-bold mb-6 text-yellow-300">¡Felicidades!</h2>
-        <div id="result-content" class="mb-6">
-            <p class="text-xl mb-4">Has ganado: <span id="final-prize" class="font-bold text-yellow-300 text-2xl"></span></p>
-            <div class="result-card max-w-md mx-auto">
-                <div class="result-item">
-                    <span class="font-semibold">Nombre:</span>
-                    <span id="result-name"></span>
+        
+        <!-- Game Screen -->
+        <div id="game" class="hidden">
+            <div class="beach-bg backdrop-blur-md rounded-xl p-6 shadow-2xl mb-6 mx-auto max-w-4xl">
+                <h1 class="text-3xl font-bold text-center mb-2 purple-theme" id="game-title">🏝️ Tours Aventuras por la Baja 🏝️</h1>
+                <h2 id="level-title" class="text-2xl font-semibold text-center mb-4 flex items-center justify-center purple-theme">
+                    <span class="mr-2">🎯</span> Nivel 1 <span class="ml-2">🎯</span>
+                </h2>
+                <div id="player-info" class="flex flex-col md:flex-row justify-between items-center mb-6 p-3 bg-white/5 rounded-lg">
+                    <div>
+                        <p><span class="font-semibold flex items-center"><span class="mr-2">👤</span> Nombre:</span> <span id="player-name"></span></p>
+                        <p><span class="font-semibold flex items-center"><span class="mr-2">🎫</span> Folio:</span> <span id="player-folio"></span></p>
+                    </div>
+                    <div>
+                        <p><span class="font-semibold flex items-center"><span class="mr-2">📱</span> Teléfono:</span> <span id="player-phone"></span></p>
+                        <p id="winnings-container" class="hidden"><span class="font-semibold flex items-center"><span class="mr-2">💰</span> Ganado:</span> <span id="player-winnings" class="text-yellow-300 font-bold"></span></p>
+                    </div>
                 </div>
-                <div class="result-item">
-                    <span class="font-semibold">Folio:</span>
-                    <span id="result-folio"></span>
+                
+                <p id="game-instructions" class="text-center mb-6 text-lg flex items-center justify-center">
+                    <span class="mr-2">🚪</span> Elige una puerta para descubrir tu premio. ¡Buena suerte! <span class="ml-2">🍀</span>
+                </p>
+                
+                <div id="doors-container" class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8 max-w-3xl mx-auto">
+                    <!-- Doors will be generated here -->
                 </div>
-                <div class="result-item">
-                    <span class="font-semibold">Teléfono:</span>
-                    <span id="result-phone"></span>
-                </div>
-                <div class="result-item">
-                    <span class="font-semibold">Fecha:</span>
-                    <span id="result-date"></span>
-                </div>
-                <div class="result-item">
-                    <span class="font-semibold">Premio:</span>
-                    <span id="result-prize" class="text-yellow-300 font-bold"></span>
-                </div>
-            </div>
-            <p class="text-sm mt-4 bg-white/20 inline-block px-4 py-2 rounded-full">Toma una captura de pantalla para reclamar tu premio</p>
-        </div>
-        <div class="flex flex-col md:flex-row justify-center gap-4">
-            <button id="restart-button" class="bg-gradient-to-r from-blue-500 to-blue-700 text-white font-bold py-3 px-6 rounded-lg hover:from-blue-400 hover:to-blue-600 transition-all shadow-lg">
-                JUGAR DE NUEVO
-            </button>
-            <button id="new-player-button" class="bg-gradient-to-r from-purple-500 to-purple-700 text-white font-bold py-3 px-6 rounded-lg hover:from-purple-400 hover:to-purple-600 transition-all shadow-lg">
-                NUEVO JUGADOR
-            </button>
-        </div>
-    </div>
-    
-    <!-- Final Level Confirmation -->
-    <div id="final-confirmation" class="hidden bg-white/10 backdrop-blur-md rounded-xl p-6 shadow-2xl text-center mx-auto max-w-2xl">
-        <h2 class="text-3xl font-bold mb-6 text-yellow-300">¡Última Oportunidad!</h2>
-        <p class="text-xl mb-6">¿Quieres intentar ganar el PREMIO MAYOR?</p>
-        <p class="text-lg mb-8 text-yellow-200 font-bold">¡Un viaje GRATIS a Valle de Guadalupe!</p>
-        <p class="text-red-300 mb-6">ADVERTENCIA: Si continúas, perderás lo que ya has ganado.</p>
-        
-        <div class="flex flex-col md:flex-row justify-center gap-4">
-            <button id="final-yes" class="bg-gradient-to-r from-purple-500 to-purple-700 text-white font-bold py-3 px-6 rounded-lg hover:from-purple-400 hover:to-purple-600 transition-all shadow-lg">
-                ¡SÍ, QUIERO EL PREMIO MAYOR!
-            </button>
-            <button id="final-no" class="bg-gradient-to-r from-gray-500 to-gray-700 text-white font-bold py-3 px-6 rounded-lg hover:from-gray-400 hover:to-gray-600 transition-all shadow-lg">
-                NO, MANTENER MI PREMIO
-            </button>
-        </div>
-    </div>
-</div>
-    <!-- Resto del código (Game Screen, Result Screen, Final Confirmation) -->
-    <!-- Mantén todo el resto del código HTML tal como está -->
-    
-    <script>
-    // Mantén todo el código JavaScript tal como está
-	// Game state
-    const gameState = {
-        currentLevel: 1,
-        maxLevel: 5,
-        playerName: '',
-        playerPhone: '',
-        playerFolio: '',
-        totalWinnings: 0,
-        hasWon: false,
-        doorSelected: false
-    };
-    
-    // Level configurations - Original win probabilities
-    const levelConfig = {
-        1: { doors: 3, winProbability: 0.33, prize: 20, icon: '💰' },
-        2: { doors: 3, winProbability: 0.33, prize: 30, icon: '💰' },
-        3: { doors: 3, winProbability: 0.33, prize: 50, icon: '💰' },
-        4: { 
-            doors: 3, 
-            winProbability: 0.25, 
-            prizes: [
-                { name: "Vino Gratis", probability: 0.2, icon: '🍷' },
-                { name: "Paseo en Barco", probability: 0.3, icon: '🚢' },
-                { name: "100 Pesos de Descuento", probability: 0.3, icon: '💵' },
-                { name: "Premio Sorpresa", probability: 0.2, icon: '🎁' }
-            ]
-        },
-        5: { doors: 3, winProbability: 0.05, prize: "Viaje Gratis a Valle de Guadalupe", icon: '✈️' }
-    };
-    
-    // DOM Elements
-    const registrationScreen = document.getElementById('registration');
-    const gameScreen = document.getElementById('game');
-    const resultScreen = document.getElementById('result');
-    const finalConfirmationScreen = document.getElementById('final-confirmation');
-    
-    const folioInput = document.getElementById('folio-input');
-    const nameInput = document.getElementById('name-input');
-    const phoneInput = document.getElementById('phone-input');
-    const startButton = document.getElementById('start-button');
-    
-    const levelTitle = document.getElementById('level-title');
-    const playerNameDisplay = document.getElementById('player-name');
-    const playerFolioDisplay = document.getElementById('player-folio');
-    const playerPhoneDisplay = document.getElementById('player-phone');
-    const playerWinningsDisplay = document.getElementById('player-winnings');
-    const winningsContainer = document.getElementById('winnings-container');
-    const doorsContainer = document.getElementById('doors-container');
-    const continueContainer = document.getElementById('continue-container');
-    const continueYesButton = document.getElementById('continue-yes');
-    const continueNoButton = document.getElementById('continue-no');
-    
-    const resultTitle = document.getElementById('result-title');
-    const finalPrize = document.getElementById('final-prize');
-    const resultName = document.getElementById('result-name');
-    const resultFolio = document.getElementById('result-folio');
-    const resultPhone = document.getElementById('result-phone');
-    const resultDate = document.getElementById('result-date');
-    const resultPrize = document.getElementById('result-prize');
-    const restartButton = document.getElementById('restart-button');
-    const newPlayerButton = document.getElementById('new-player-button');
-    
-    const finalYesButton = document.getElementById('final-yes');
-    const finalNoButton = document.getElementById('final-no');
-    
-    // Event Listeners
-    startButton.addEventListener('click', startGame);
-    continueYesButton.addEventListener('click', nextLevel);
-    continueNoButton.addEventListener('click', showResult);
-    restartButton.addEventListener('click', restartGame);
-    newPlayerButton.addEventListener('click', resetGame);
-    finalYesButton.addEventListener('click', playFinalLevel);
-    finalNoButton.addEventListener('click', showResult);
-    
-    // Phone input validation
-    phoneInput.addEventListener('input', function(e) {
-        e.target.value = e.target.value.replace(/[^0-9]/g, '').substring(0, 10);
-    });
-    
-    // Game Functions
-    function startGame() {
-        const folio = folioInput.value.trim();
-        const name = nameInput.value.trim();
-        const phone = phoneInput.value.trim();
-        
-        if (folio !== '18062025') {
-            alert('Folio incorrecto. Por favor ingresa el folio válido.');
-            return;
-        }
-        
-        if (!name) {
-            alert('Por favor ingresa tu nombre.');
-            return;
-        }
-        
-        if (phone.length !== 10) {
-            alert('Por favor ingresa un número de teléfono válido de 10 dígitos.');
-            return;
-        }
-        
-        // Set player info
-        gameState.playerName = name;
-        gameState.playerPhone = phone;
-        gameState.playerFolio = generateRandomFolio();
-        
-        // Update display
-        playerNameDisplay.textContent = gameState.playerName;
-        playerFolioDisplay.textContent = gameState.playerFolio;
-        playerPhoneDisplay.textContent = gameState.playerPhone;
-        
-        // Switch screens
-        registrationScreen.classList.add('hidden');
-        gameScreen.classList.remove('hidden');
-        
-        // Setup first level
-        setupLevel(gameState.currentLevel);
-    }
-    
-    function setupLevel(level) {
-        gameState.doorSelected = false;
-        levelTitle.textContent = `Nivel ${level}`;
-        
-        // Show winnings if not level 1
-        if (level > 1) {
-            winningsContainer.classList.remove('hidden');
-            playerWinningsDisplay.textContent = typeof gameState.totalWinnings === 'number' ? `$${gameState.totalWinnings}` : gameState.totalWinnings;
-        }
-        
-        // Clear previous doors
-        doorsContainer.innerHTML = '';
-        
-        // Hide continue container
-        continueContainer.classList.add('hidden');
-        
-        // Create doors based on level config
-        const config = levelConfig[level];
-        for (let i = 0; i < config.doors; i++) {
-            const door = createDoor(i + 1);
-            doorsContainer.appendChild(door);
-        }
-    }
-    
-    function createDoor(doorNumber) {
-        const doorDiv = document.createElement('div');
-        doorDiv.className = 'door relative cursor-pointer';
-        doorDiv.innerHTML = `
-            <div class="door-inner relative w-full h-full">
-                <div class="door-front bg-gradient-to-b from-yellow-600 to-yellow-800 rounded-lg shadow-xl p-4 flex flex-col items-center justify-center">
-                    <div class="absolute top-2 left-2 w-6 h-6 rounded-full bg-yellow-400"></div>
-                    <div class="absolute top-2 right-2 w-6 h-6 rounded-full bg-yellow-400"></div>
-                    <div class="text-6xl font-bold mb-4">${doorNumber}</div>
-                    <div class="door-knob"></div>
-                    <div class="door-frame"></div>
-                </div>
-                <div class="door-back bg-gradient-to-b from-gray-700 to-gray-900 rounded-lg shadow-xl p-4 flex items-center justify-center">
-                    <div id="door-content-${doorNumber}" class="text-center prize-box">
-                        <div class="text-2xl font-bold mb-2">Cargando...</div>
+                
+                <div id="continue-container" class="hidden text-center">
+                    <p class="mb-4 text-lg flex items-center justify-center">
+                        <span class="mr-2">🤔</span> ¿Quieres mejorar tu premio? <span class="ml-2">🎁</span>
+                    </p>
+                    <div class="flex flex-col md:flex-row justify-center gap-4">
+                        <button id="continue-yes" class="bg-gradient-to-r from-purple-500 to-purple-700 text-white font-bold py-3 px-6 rounded-lg hover:from-purple-400 hover:to-purple-600 transition-all shadow-lg flex items-center justify-center">
+                            <span class="mr-2">✅</span> ¡SÍ, QUIERO MÁS! <span class="ml-2">🚀</span>
+                        </button>
+                        <button id="continue-no" class="bg-gradient-to-r from-red-500 to-red-700 text-white font-bold py-3 px-6 rounded-lg hover:from-red-400 hover:to-red-600 transition-all shadow-lg flex items-center justify-center">
+                            <span class="mr-2">🛑</span> NO, TOMAR PREMIO <span class="ml-2">💰</span>
+                        </button>
                     </div>
                 </div>
             </div>
-        `;
+        </div>
         
-        doorDiv.addEventListener('click', () => {
-            if (!gameState.doorSelected) {
-                openDoor(doorDiv, doorNumber);
-            }
+        <!-- Result Screen -->
+        <div id="result" class="hidden tropical-bg backdrop-blur-md rounded-xl p-6 shadow-2xl text-center mx-auto max-w-2xl">
+            <h2 id="result-title" class="text-3xl font-bold mb-6 purple-theme flex items-center justify-center">
+                <span class="mr-2">🎉</span> ¡Felicidades! <span class="ml-2">🎊</span>
+            </h2>
+            <div id="result-content" class="mb-6">
+                <p class="text-xl mb-4">Has ganado: <span id="final-prize" class="font-bold text-purple-300 text-2xl"></span></p>
+                <div class="result-card max-w-md mx-auto">
+                    <div class="result-item">
+                        <span class="font-semibold flex items-center"><span class="mr-2">👤</span> Nombre:</span>
+                        <span id="result-name"></span>
+                    </div>
+                    <div class="result-item">
+                        <span class="font-semibold flex items-center"><span class="mr-2">🎫</span> Folio:</span>
+                        <span id="result-folio"></span>
+                    </div>
+                    <div class="result-item">
+                        <span class="font-semibold flex items-center"><span class="mr-2">📱</span> Teléfono:</span>
+                        <span id="result-phone"></span>
+                    </div>
+                    <div class="result-item">
+                        <span class="font-semibold flex items-center"><span class="mr-2">📅</span> Fecha:</span>
+                        <span id="result-date"></span>
+                    </div>
+                    <div class="result-item">
+                        <span class="font-semibold flex items-center"><span class="mr-2">🏆</span> Premio:</span>
+                        <span id="result-prize" class="text-purple-300 font-bold"></span>
+                    </div>
+                </div>
+                <p class="text-sm mt-4 bg-white/20 inline-block px-4 py-2 rounded-full flex items-center">
+                    <span class="mr-2">📸</span> Toma una captura de pantalla para reclamar tu premio
+                </p>
+            </div>
+            <div class="flex flex-col md:flex-row justify-center gap-4">
+                <button id="restart-button" class="bg-gradient-to-r from-purple-500 to-purple-700 text-white font-bold py-3 px-6 rounded-lg hover:from-purple-400 hover:to-purple-600 transition-all shadow-lg flex items-center justify-center">
+                    <span class="mr-2">🔄</span> JUGAR DE NUEVO
+                </button>
+                <button id="new-player-button" class="bg-gradient-to-r from-purple-500 to-purple-700 text-white font-bold py-3 px-6 rounded-lg hover:from-purple-400 hover:to-purple-600 transition-all shadow-lg flex items-center justify-center">
+                    <span class="mr-2">👥</span> NUEVO JUGADOR
+                </button>
+            </div>
+        </div>
+        
+        <!-- Final Level Confirmation -->
+        <div id="final-confirmation" class="hidden vacation-bg backdrop-blur-md rounded-xl p-6 shadow-2xl text-center mx-auto max-w-2xl">
+            <h2 class="text-3xl font-bold mb-6 purple-theme flex items-center justify-center">
+                <span class="mr-2">⭐</span> ¡Última Oportunidad! <span class="ml-2">⭐</span>
+            </h2>
+            <p class="text-xl mb-6 flex items-center justify-center">
+                <span class="mr-2">🤩</span> ¿Quieres intentar ganar el PREMIO MAYOR? <span class="ml-2">🏆</span>
+            </p>
+            <p class="text-lg mb-8 text-purple-200 font-bold flex items-center justify-center">
+                <span class="mr-2">✈️</span> ¡Un viaje GRATIS a Valle de Guadalupe! <span class="ml-2">🍷</span>
+            </p>
+            <p class="text-red-300 mb-6 flex items-center justify-center">
+                <span class="mr-2">⚠️</span> ADVERTENCIA: Si continúas, perderás lo que ya has ganado.
+            </p>
+            
+            <div class="flex flex-col md:flex-row justify-center gap-4">
+                <button id="final-yes" class="bg-gradient-to-r from-purple-500 to-purple-700 text-white font-bold py-3 px-6 rounded-lg hover:from-purple-400 hover:to-purple-600 transition-all shadow-lg flex items-center justify-center">
+                    <span class="mr-2">🎯</span> ¡SÍ, QUIERO EL PREMIO MAYOR! <span class="ml-2">🏆</span>
+                </button>
+                <button id="final-no" class="bg-gradient-to-r from-gray-500 to-gray-700 text-white font-bold py-3 px-6 rounded-lg hover:from-gray-400 hover:to-gray-600 transition-all shadow-lg flex items-center justify-center">
+                    <span class="mr-2">💰</span> NO, MANTENER MI PREMIO
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Game state
+        const gameState = {
+            currentLevel: 1,
+            maxLevel: 5,
+            playerName: '',
+            playerPhone: '',
+            playerFolio: '',
+            totalWinnings: 0,
+            hasWon: false,
+            doorSelected: false
+        };
+        
+        // Level configurations - All win probabilities set to 100%
+        const levelConfig = {
+            1: { doors: 3, winProbability: 1.0, prize: 20, icon: '💰' },
+            2: { doors: 3, winProbability: 1.0, prize: 30, icon: '🏖️' },
+            3: { doors: 3, winProbability: 1.0, prize: 50, icon: '🌴' },
+            4: { 
+                doors: 3, 
+                winProbability: 1.0, 
+                prizes: [
+                    { name: "Vino Gratis", probability: 0.25, icon: '🍷' },
+                    { name: "Paseo en Barco", probability: 0.25, icon: '🚢' },
+                    { name: "100 Pesos de Descuento", probability: 0.25, icon: '💵' },
+                    { name: "Tour a La Bufadora", probability: 0.25, icon: '🌊' }
+                ]
+            },
+            5: { doors: 3, winProbability: 1.0, prize: "Viaje Gratis a Valle de Guadalupe", icon: '✈️' }
+        };
+        
+        // Vacation-themed door designs with purple theme
+        const doorDesigns = [
+            { bg: 'from-purple-500 to-purple-700', icon: '🏝️' },
+            { bg: 'from-purple-600 to-purple-800', icon: '🌞' },
+            { bg: 'from-purple-400 to-purple-600', icon: '🌴' },
+            { bg: 'from-purple-500 to-indigo-700', icon: '🌊' },
+            { bg: 'from-indigo-500 to-purple-700', icon: '🏖️' },
+            { bg: 'from-fuchsia-500 to-purple-700', icon: '🍹' }
+        ];
+        
+        // DOM Elements
+        const registrationScreen = document.getElementById('registration');
+        const gameScreen = document.getElementById('game');
+        const resultScreen = document.getElementById('result');
+        const finalConfirmationScreen = document.getElementById('final-confirmation');
+        
+        const folioInput = document.getElementById('folio-input');
+        const nameInput = document.getElementById('name-input');
+        const phoneInput = document.getElementById('phone-input');
+        const startButton = document.getElementById('start-button');
+        
+        const levelTitle = document.getElementById('level-title');
+        const playerNameDisplay = document.getElementById('player-name');
+        const playerFolioDisplay = document.getElementById('player-folio');
+        const playerPhoneDisplay = document.getElementById('player-phone');
+        const playerWinningsDisplay = document.getElementById('player-winnings');
+        const winningsContainer = document.getElementById('winnings-container');
+        const doorsContainer = document.getElementById('doors-container');
+        const continueContainer = document.getElementById('continue-container');
+        const continueYesButton = document.getElementById('continue-yes');
+        const continueNoButton = document.getElementById('continue-no');
+        
+        const resultTitle = document.getElementById('result-title');
+        const finalPrize = document.getElementById('final-prize');
+        const resultName = document.getElementById('result-name');
+        const resultFolio = document.getElementById('result-folio');
+        const resultPhone = document.getElementById('result-phone');
+        const resultDate = document.getElementById('result-date');
+        const resultPrize = document.getElementById('result-prize');
+        const restartButton = document.getElementById('restart-button');
+        const newPlayerButton = document.getElementById('new-player-button');
+        
+        const finalYesButton = document.getElementById('final-yes');
+        const finalNoButton = document.getElementById('final-no');
+        
+        // Event Listeners
+        startButton.addEventListener('click', startGame);
+        continueYesButton.addEventListener('click', nextLevel);
+        continueNoButton.addEventListener('click', showResult);
+        restartButton.addEventListener('click', restartGame);
+        newPlayerButton.addEventListener('click', resetGame);
+        finalYesButton.addEventListener('click', playFinalLevel);
+        finalNoButton.addEventListener('click', showResult);
+        
+        // Phone input validation
+        phoneInput.addEventListener('input', function(e) {
+            e.target.value = e.target.value.replace(/[^0-9]/g, '').substring(0, 10);
         });
         
-        return doorDiv;
-    }
-    
-    function openDoor(doorElement, doorNumber) {
-        if (gameState.doorSelected) return;
+        // Initialize title animation
+        function initializeTitleAnimation() {
+            const mainTitle = document.getElementById('main-title');
+            const gameTitle = document.getElementById('game-title');
+            
+            // Function to create animated title
+            function createAnimatedTitle(element, text) {
+                if (!element) return;
+                
+                // Remove emoji from text for animation
+                const cleanText = text.replace(/🏝️/g, '').trim();
+                
+                // Create HTML for animated letters
+                let html = '🏝️ ';
+                for (let i = 0; i < cleanText.length; i++) {
+                    const char = cleanText[i];
+                    html += `<span class="title-letter">${char}</span>`;
+                }
+                html += ' 🏝️';
+                
+                element.innerHTML = html;
+            }
+            
+            // Initialize both titles
+            createAnimatedTitle(mainTitle, mainTitle.textContent);
+            if (gameTitle) {
+                createAnimatedTitle(gameTitle, gameTitle.textContent);
+            }
+            
+            // Trigger animation for main title on load
+            setTimeout(() => {
+                animateTitle(mainTitle);
+            }, 500);
+        }
         
-        gameState.doorSelected = true;
-        doorElement.classList.add('open');
+        // Animate title letters sequentially
+        function animateTitle(titleElement) {
+            if (!titleElement) return;
+            
+            const letters = titleElement.querySelectorAll('.title-letter');
+            letters.forEach((letter, index) => {
+                setTimeout(() => {
+                    letter.classList.add('title-reveal');
+                }, 100 * index);
+            });
+        }
         
-        const level = gameState.currentLevel;
-        const config = levelConfig[level];
-        const doorContent = doorElement.querySelector(`#door-content-${doorNumber}`);
+        // Game Functions
+        function startGame() {
+            const folio = folioInput.value.trim();
+            const name = nameInput.value.trim();
+            const phone = phoneInput.value.trim();
+            
+            if (folio !== '18062025') {
+                alert('Folio incorrecto. Por favor ingresa el folio válido.');
+                return;
+            }
+            
+            if (!name) {
+                alert('Por favor ingresa tu nombre.');
+                return;
+            }
+            
+            if (phone.length !== 10) {
+                alert('Por favor ingresa un número de teléfono válido de 10 dígitos.');
+                return;
+            }
+            
+            // Set player info
+            gameState.playerName = name;
+            gameState.playerPhone = phone;
+            gameState.playerFolio = generateRandomFolio();
+            
+            // Update display
+            playerNameDisplay.textContent = gameState.playerName;
+            playerFolioDisplay.textContent = gameState.playerFolio;
+            playerPhoneDisplay.textContent = gameState.playerPhone;
+            
+            // Switch screens
+            registrationScreen.classList.add('hidden');
+            gameScreen.classList.remove('hidden');
+            
+            // Animate game title
+            setTimeout(() => {
+                animateTitle(document.getElementById('game-title'));
+            }, 300);
+            
+            // Setup first level
+            setupLevel(gameState.currentLevel);
+        }
         
-        // Determine if won based on probability
-        const isWin = Math.random() < config.winProbability;
+        function setupLevel(level) {
+            gameState.doorSelected = false;
+            
+            // Update level title with emojis based on level
+            const levelEmojis = ['🎯', '🌟', '🔥', '💎', '👑'];
+            levelTitle.innerHTML = `<span class="mr-2">${levelEmojis[level-1]}</span> Nivel ${level} <span class="ml-2">${levelEmojis[level-1]}</span>`;
+            
+            // Show winnings if not level 1
+            if (level > 1) {
+                winningsContainer.classList.remove('hidden');
+                playerWinningsDisplay.textContent = typeof gameState.totalWinnings === 'number' ? `$${gameState.totalWinnings}` : gameState.totalWinnings;
+            }
+            
+            // Clear previous doors
+            doorsContainer.innerHTML = '';
+            
+            // Hide continue container
+            continueContainer.classList.add('hidden');
+            
+            // Create doors based on level config
+            const config = levelConfig[level];
+            for (let i = 0; i < config.doors; i++) {
+                const door = createDoor(i + 1);
+                doorsContainer.appendChild(door);
+            }
+        }
         
-        if (level === 4) {
-            // Special handling for level 4 with different prizes
-            if (isWin) {
+        function createDoor(doorNumber) {
+            // Get random door design
+            const doorDesign = doorDesigns[Math.floor(Math.random() * doorDesigns.length)];
+            
+            const doorDiv = document.createElement('div');
+            doorDiv.className = 'door relative cursor-pointer';
+            doorDiv.innerHTML = `
+                <div class="door-inner relative w-full h-full">
+                    <div class="door-front bg-gradient-to-b ${doorDesign.bg} rounded-lg shadow-xl p-4 flex flex-col items-center justify-center">
+                        <div class="absolute top-2 left-2 w-6 h-6 rounded-full bg-purple-300 flex items-center justify-center text-xs">${doorDesign.icon}</div>
+                        <div class="absolute top-2 right-2 w-6 h-6 rounded-full bg-purple-300 flex items-center justify-center text-xs">${doorDesign.icon}</div>
+                        <div class="text-6xl font-bold mb-4">${doorNumber}</div>
+                        <div class="text-xl mb-2 floating">${doorDesign.icon}</div>
+                        <div class="door-knob"></div>
+                        <div class="door-frame"></div>
+                    </div>
+                    <div class="door-back bg-gradient-to-b from-purple-900 to-indigo-900 rounded-lg shadow-xl p-4 flex items-center justify-center">
+                        <div id="door-content-${doorNumber}" class="text-center prize-box">
+                            <div class="text-2xl font-bold mb-2">Cargando...</div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            doorDiv.addEventListener('click', () => {
+                if (!gameState.doorSelected) {
+                    openDoor(doorDiv, doorNumber);
+                }
+            });
+            
+            return doorDiv;
+        }
+        
+        function openDoor(doorElement, doorNumber) {
+            if (gameState.doorSelected) return;
+            
+            gameState.doorSelected = true;
+            doorElement.classList.add('open');
+            
+            // Animate title when door opens
+            animateTitleWithDoorOpen();
+            
+            const level = gameState.currentLevel;
+            const config = levelConfig[level];
+            const doorContent = doorElement.querySelector(`#door-content-${doorNumber}`);
+            
+            // Always win since probability is 100%
+            if (level === 4) {
+                // Special handling for level 4 with different prizes
                 // Select a prize based on probabilities
                 const prizeObj = selectPrizeObjectByProbability(config.prizes);
                 doorContent.innerHTML = `
                     <div class="prize-icon">${prizeObj.icon}</div>
-                    <div class="text-2xl font-bold mb-2 text-green-400 win-text">¡GANASTE!</div>
+                    <div class="text-2xl font-bold mb-2 text-purple-400 win-text">¡GANASTE!</div>
                     <div class="text-xl">${prizeObj.name}</div>
                 `;
                 createConfetti();
                 gameState.hasWon = true;
                 gameState.totalWinnings = prizeObj.name; // Replace previous winnings
-            } else {
-                doorContent.innerHTML = `
-                    <div class="prize-icon">❌</div>
-                    <div class="text-2xl font-bold mb-2 text-red-500">¡PERDISTE!</div>
-                    <div class="text-xl">Inténtalo de nuevo</div>
-                `;
-                gameState.hasWon = false;
-                gameState.totalWinnings = 0; // Reset winnings
-            }
-        } else if (level === 5) {
-            // Final level
-            if (isWin) {
+            } else if (level === 5) {
+                // Final level
                 doorContent.innerHTML = `
                     <div class="prize-icon">${config.icon}</div>
-                    <div class="text-2xl font-bold mb-2 text-green-400 win-text">¡GANASTE!</div>
+                    <div class="text-2xl font-bold mb-2 text-purple-400 win-text">¡GANASTE!</div>
                     <div class="text-xl">${config.prize}</div>
                 `;
                 createConfetti();
                 gameState.hasWon = true;
                 gameState.totalWinnings = config.prize;
             } else {
-                doorContent.innerHTML = `
-                    <div class="prize-icon">❌</div>
-                    <div class="text-2xl font-bold mb-2 text-red-500">¡PERDISTE!</div>
-                    <div class="text-xl">Inténtalo de nuevo</div>
-                `;
-                gameState.hasWon = false;
-                gameState.totalWinnings = 0;
-            }
-        } else {
-            // Regular levels 1-3
-            if (isWin) {
+                // Regular levels 1-3
                 doorContent.innerHTML = `
                     <div class="prize-icon">${config.icon}</div>
-                    <div class="text-2xl font-bold mb-2 text-green-400 win-text">¡GANASTE!</div>
+                    <div class="text-2xl font-bold mb-2 text-purple-400 win-text">¡GANASTE!</div>
                     <div class="text-xl">$${config.prize}</div>
                 `;
                 createConfetti();
                 gameState.hasWon = true;
                 gameState.totalWinnings += config.prize;
-            } else {
-                doorContent.innerHTML = `
-                    <div class="prize-icon">❌</div>
-                    <div class="text-2xl font-bold mb-2 text-red-500">¡PERDISTE!</div>
-                    <div class="text-xl">Inténtalo de nuevo</div>
-                `;
-                gameState.hasWon = false;
             }
-        }
-        
-        // Show continue options after a delay
-        setTimeout(() => {
-            if (gameState.hasWon) {
+            
+            // Show continue options after a delay
+            setTimeout(() => {
                 if (level === 3) {
                     // After level 3, ask if they want to try level 4
                     finalConfirmationScreen.classList.remove('hidden');
@@ -600,153 +753,217 @@
                     // Regular continue
                     continueContainer.classList.remove('hidden');
                 }
+            }, 1500);
+        }
+        
+        // Animate title when door opens
+        function animateTitleWithDoorOpen() {
+            const gameTitle = document.getElementById('game-title');
+            if (!gameTitle) return;
+            
+            // Reset animation by removing and re-adding letters
+            const currentText = gameTitle.textContent;
+            
+            // Create new animated title
+            let html = '🏝️ ';
+            const cleanText = "Tours Aventuras por la Baja";
+            for (let i = 0; i < cleanText.length; i++) {
+                const char = cleanText[i];
+                html += `<span class="title-letter">${char}</span>`;
+            }
+            html += ' 🏝️';
+            
+            gameTitle.innerHTML = html;
+            
+            // Trigger animation
+            const letters = gameTitle.querySelectorAll('.title-letter');
+            letters.forEach((letter, index) => {
+                setTimeout(() => {
+                    letter.classList.add('title-reveal');
+                }, 50 * index); // Faster animation
+            });
+        }
+        
+        function nextLevel() {
+            if (gameState.currentLevel < gameState.maxLevel) {
+                gameState.currentLevel++;
+                setupLevel(gameState.currentLevel);
             } else {
-                // If lost, show result directly
                 showResult();
             }
-        }, 1500);
-    }
-    
-    function nextLevel() {
-        if (gameState.currentLevel < gameState.maxLevel) {
+        }
+        
+        function playFinalLevel() {
             gameState.currentLevel++;
+            finalConfirmationScreen.classList.add('hidden');
+            gameScreen.classList.remove('hidden');
+            
+            // Animate title again when returning to game screen
+            setTimeout(() => {
+                animateTitle(document.getElementById('game-title'));
+            }, 300);
+            
             setupLevel(gameState.currentLevel);
-        } else {
-            showResult();
         }
-    }
-    
-    function playFinalLevel() {
-        gameState.currentLevel++;
-        finalConfirmationScreen.classList.add('hidden');
-        gameScreen.classList.remove('hidden');
-        setupLevel(gameState.currentLevel);
-    }
-    
-    function showResult() {
-        gameScreen.classList.add('hidden');
-        finalConfirmationScreen.classList.add('hidden');
-        resultScreen.classList.remove('hidden');
         
-        // Update result screen
-        if (gameState.hasWon) {
-            resultTitle.textContent = "¡Felicidades!";
+        function showResult() {
+            gameScreen.classList.add('hidden');
+            finalConfirmationScreen.classList.add('hidden');
+            resultScreen.classList.remove('hidden');
+            
+            // Update result screen - Always winning now
+            resultTitle.innerHTML = "<span class='mr-2'>🎉</span> ¡Felicidades! <span class='ml-2'>🎊</span>";
             resultTitle.classList.remove('text-red-500');
-            resultTitle.classList.add('text-yellow-300');
-        } else {
-            resultTitle.textContent = "Lo sentimos";
-            resultTitle.classList.remove('text-yellow-300');
-            resultTitle.classList.add('text-red-500');
+            resultTitle.classList.add('purple-theme');
+            
+            // Format prize display
+            let prizeDisplay;
+            if (typeof gameState.totalWinnings === 'number') {
+                prizeDisplay = `$${gameState.totalWinnings}`;
+            } else {
+                prizeDisplay = gameState.totalWinnings;
+            }
+            
+            finalPrize.textContent = prizeDisplay;
+            resultName.textContent = gameState.playerName;
+            resultFolio.textContent = gameState.playerFolio;
+            resultPhone.textContent = gameState.playerPhone;
+            resultDate.textContent = getCurrentDate();
+            resultPrize.textContent = prizeDisplay;
+            
+            // Create extra celebration confetti
+            createConfetti();
+            setTimeout(() => createConfetti(), 1000);
         }
         
-        // Format prize display
-        let prizeDisplay;
-        if (typeof gameState.totalWinnings === 'number') {
-            prizeDisplay = `$${gameState.totalWinnings}`;
-        } else {
-            prizeDisplay = gameState.totalWinnings;
+        function restartGame() {
+            // Reset game state but keep player info
+            gameState.currentLevel = 1;
+            gameState.totalWinnings = 0;
+            gameState.hasWon = false;
+            gameState.doorSelected = false;
+            gameState.playerFolio = generateRandomFolio(); // Generate new folio for new game
+            
+            // Update display with new folio
+            playerFolioDisplay.textContent = gameState.playerFolio;
+            
+            // Switch screens
+            resultScreen.classList.add('hidden');
+            gameScreen.classList.remove('hidden');
+            
+            // Animate title again when returning to game screen
+            setTimeout(() => {
+                animateTitle(document.getElementById('game-title'));
+            }, 300);
+            
+            // Hide winnings display for new game
+            winningsContainer.classList.add('hidden');
+            
+            // Setup first level
+            setupLevel(gameState.currentLevel);
         }
         
-        finalPrize.textContent = gameState.hasWon ? prizeDisplay : "Nada esta vez";
-        resultName.textContent = gameState.playerName;
-        resultFolio.textContent = gameState.playerFolio;
-        resultPhone.textContent = gameState.playerPhone;
-        resultDate.textContent = getCurrentDate();
-        resultPrize.textContent = gameState.hasWon ? prizeDisplay : "Ninguno";
-    }
-    
-    function restartGame() {
-        // Reset game state but keep player info
-        gameState.currentLevel = 1;
-        gameState.totalWinnings = 0;
-        gameState.hasWon = false;
-        gameState.doorSelected = false;
-        gameState.playerFolio = generateRandomFolio(); // Generate new folio for new game
-        
-        // Update display with new folio
-        playerFolioDisplay.textContent = gameState.playerFolio;
-        
-        // Switch screens
-        resultScreen.classList.add('hidden');
-        gameScreen.classList.remove('hidden');
-        
-        // Hide winnings display for new game
-        winningsContainer.classList.add('hidden');
-        
-        // Setup first level
-        setupLevel(gameState.currentLevel);
-    }
-    
-    function resetGame() {
-        // Reset game state completely
-        gameState.currentLevel = 1;
-        gameState.totalWinnings = 0;
-        gameState.hasWon = false;
-        gameState.doorSelected = false;
-        gameState.playerName = '';
-        gameState.playerPhone = '';
-        gameState.playerFolio = '';
-        
-        // Clear inputs
-        folioInput.value = '';
-        nameInput.value = '';
-        phoneInput.value = '';
-        
-        // Switch screens
-        resultScreen.classList.add('hidden');
-        registrationScreen.classList.remove('hidden');
-    }
-    
-    // Helper Functions
-    function generateRandomFolio() {
-        let folio = '';
-        for (let i = 0; i < 5; i++) {
-            folio += Math.floor(Math.random() * 10);
+        function resetGame() {
+            // Reset game state completely
+            gameState.currentLevel = 1;
+            gameState.totalWinnings = 0;
+            gameState.hasWon = false;
+            gameState.doorSelected = false;
+            gameState.playerName = '';
+            gameState.playerPhone = '';
+            gameState.playerFolio = '';
+            
+            // Clear inputs
+            folioInput.value = '';
+            nameInput.value = '';
+            phoneInput.value = '';
+            
+            // Switch screens
+            resultScreen.classList.add('hidden');
+            registrationScreen.classList.remove('hidden');
+            
+            // Re-initialize title animation
+            initializeTitleAnimation();
         }
-        return folio;
-    }
-    
-    function getCurrentDate() {
-        const now = new Date();
-        return now.toLocaleDateString('es-MX');
-    }
-    
-    function selectPrizeObjectByProbability(prizes) {
-        const rand = Math.random();
-        let cumulativeProbability = 0;
         
-        for (const prize of prizes) {
-            cumulativeProbability += prize.probability;
-            if (rand < cumulativeProbability) {
-                return prize;
+        // Helper Functions
+        function generateRandomFolio() {
+            let folio = '';
+            for (let i = 0; i < 5; i++) {
+                folio += Math.floor(Math.random() * 10);
+            }
+            return folio;
+        }
+        
+        function getCurrentDate() {
+            const now = new Date();
+            return now.toLocaleDateString('es-MX');
+        }
+        
+        function selectPrizeObjectByProbability(prizes) {
+            const rand = Math.random();
+            let cumulativeProbability = 0;
+            
+            for (const prize of prizes) {
+                cumulativeProbability += prize.probability;
+                if (rand < cumulativeProbability) {
+                    return prize;
+                }
+            }
+            
+            // Fallback
+            return prizes[0];
+        }
+        
+        function createConfetti() {
+            const colors = ['#9333ea', '#c026d3', '#a855f7', '#d946ef', '#8b5cf6', '#7c3aed'];
+            const shapes = ['🏝️', '🌴', '🌊', '🏖️', '🌞', '🍹', '✨', '🎉', '🎊', '🎁'];
+            
+            for (let i = 0; i < 50; i++) {
+                if (Math.random() > 0.7) {
+                    // Create emoji confetti
+                    const confetti = document.createElement('div');
+                    confetti.className = 'confetti';
+                    confetti.style.left = `${Math.random() * 100}%`;
+                    confetti.style.width = 'auto';
+                    confetti.style.height = 'auto';
+                    confetti.style.fontSize = `${Math.random() * 20 + 10}px`;
+                    confetti.style.background = 'transparent';
+                    confetti.textContent = shapes[Math.floor(Math.random() * shapes.length)];
+                    confetti.style.animationDuration = `${Math.random() * 3 + 2}s`;
+                    confetti.style.animationDelay = `${Math.random() * 2}s`;
+                    
+                    document.body.appendChild(confetti);
+                    
+                    // Remove confetti after animation
+                    setTimeout(() => {
+                        confetti.remove();
+                    }, 5000);
+                } else {
+                    // Create regular confetti
+                    const confetti = document.createElement('div');
+                    confetti.className = 'confetti';
+                    confetti.style.left = `${Math.random() * 100}%`;
+                    confetti.style.width = `${Math.random() * 10 + 5}px`;
+                    confetti.style.height = `${Math.random() * 10 + 5}px`;
+                    confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                    confetti.style.animationDuration = `${Math.random() * 3 + 2}s`;
+                    confetti.style.animationDelay = `${Math.random() * 2}s`;
+                    
+                    document.body.appendChild(confetti);
+                    
+                    // Remove confetti after animation
+                    setTimeout(() => {
+                        confetti.remove();
+                    }, 5000);
+                }
             }
         }
         
-        // Fallback
-        return prizes[0];
-    }
-    
-    function createConfetti() {
-        const colors = ['#ff0000', '#00ff00', '#0000ff', '#ffff00', '#ff00ff', '#00ffff'];
-        
-        for (let i = 0; i < 50; i++) {
-            const confetti = document.createElement('div');
-            confetti.className = 'confetti';
-            confetti.style.left = `${Math.random() * 100}%`;
-            confetti.style.width = `${Math.random() * 10 + 5}px`;
-            confetti.style.height = `${Math.random() * 10 + 5}px`;
-            confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-            confetti.style.animationDuration = `${Math.random() * 3 + 2}s`;
-            confetti.style.animationDelay = `${Math.random() * 2}s`;
-            
-            document.body.appendChild(confetti);
-            
-            // Remove confetti after animation
-            setTimeout(() => {
-                confetti.remove();
-            }, 5000);
-        }
-    }
+        // Initialize the game
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeTitleAnimation();
+        });
     </script>
 </body>
 </html>
