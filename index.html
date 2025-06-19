@@ -7,74 +7,112 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;700&display=swap" rel="stylesheet">
     <style>
-   body {
-        font-family: 'Baloo 2', cursive;
-        background: linear-gradient(135deg, #00d4ff, #ff00aa);
+    body {
+        font-family: 'Poppins', sans-serif;
+        background: linear-gradient(135deg, #1e3c72, #2a5298);
         min-height: 100vh;
-        background-size: 400% 400%;
-        animation: gradient 15s ease infinite;
-        margin: 0;
-        padding: 0;
-        overflow-x: hidden;
-    }
-    
-    @keyframes gradient {
-        0% { background-position: 0% 50%; }
-        50% { background-position: 100% 50%; }
-        100% { background-position: 0% 50%; }
     }
     
     .door {
-        transition: all 0.4s ease;
-        transform-style: preserve-3d;
+        transition: transform 0.5s ease-in-out;
         perspective: 1000px;
-        border: 8px solid #fff;
+        height: 280px;
+    }
+    
+    .door:hover {
+        transform: scale(1.05);
+        box-shadow: 0 0 20px rgba(255, 215, 0, 0.6);
+    }
+    
+    .door-inner {
+        transition: transform 0.8s;
+        transform-style: preserve-3d;
+        height: 100%;
+    }
+    
+    .door.open .door-inner {
+        transform: rotateY(-120deg);
+    }
+    
+    .door-front, .door-back {
+        backface-visibility: hidden;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        border-radius: 12px;
         overflow: hidden;
     }
     
-    .door:hover, .door:active {
-        transform: scale(1.05) rotate(2deg);
-        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
-    }
-    
-    .door-front {
-        height: 100%;
-        width: 100%;
-        position: absolute;
-        backface-visibility: hidden;
-        border-radius: 10px;
+    .door-back {
+        transform: rotateY(180deg);
         display: flex;
-        flex-direction: column;
-        justify-content: space-between;
         align-items: center;
-        padding: 20px;
-        box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.3);
-        background-image: linear-gradient(rgba(255,255,255,0.1), rgba(0,0,0,0.2));
+        justify-content: center;
     }
     
     .door-knob {
+        position: absolute;
         width: 24px;
         height: 24px;
-        background: #ffd700;
+        background: radial-gradient(circle at 30% 30%, #ffd700, #b8860b);
         border-radius: 50%;
-        margin-right: -70px;
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
-        border: 2px solid #fff;
+        right: 15px;
+        top: 50%;
+        transform: translateY(-50%);
+        box-shadow: 0 0 5px rgba(0,0,0,0.5);
+    }
+    
+    .door-frame {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        border: 8px solid #8B4513;
+        border-radius: 12px;
+        pointer-events: none;
+    }
+    
+    .prize-box {
+        background: linear-gradient(135deg, rgba(255,255,255,0.2), rgba(255,255,255,0.1));
+        border-radius: 10px;
+        padding: 20px;
+        box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255,255,255,0.2);
+        width: 90%;
+        max-width: 300px;
+        margin: 0 auto;
+    }
+    
+    .win-text {
+        text-shadow: 0 0 10px rgba(255,255,255,0.5);
+        animation: glow 1.5s infinite alternate;
+    }
+    
+    @keyframes glow {
+        from {
+            text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #0ff, 0 0 20px #0ff;
+        }
+        to {
+            text-shadow: 0 0 10px #fff, 0 0 15px #4ff, 0 0 20px #4ff, 0 0 25px #4ff;
+        }
     }
     
     .confetti {
         position: fixed;
-        width: 15px;
-        height: 15px;
+        width: 10px;
+        height: 10px;
         background-color: #f00;
-        animation: confetti-fall 3s ease-in-out forwards;
-        z-index: 100;
-        border-radius: 2px;
+        animation: confetti-fall 5s ease-in-out infinite;
+        z-index: 1000;
     }
     
     @keyframes confetti-fall {
         0% {
-            transform: translateY(-100px) rotate(0deg);
+            transform: translateY(-100vh) rotate(0deg);
             opacity: 1;
         }
         100% {
@@ -83,945 +121,525 @@
         }
     }
     
-    .modal {
-        animation: fadeIn 0.4s ease-out;
-    }
-    
-    @keyframes fadeIn {
-        from { opacity: 0; transform: scale(0.9); }
-        to { opacity: 1; transform: scale(1); }
-    }
-    
-    .prize-icon {
-        font-size: 4rem;
-        margin-bottom: 1rem;
-        animation: bounce 1s infinite alternate;
-    }
-    
-    @keyframes bounce {
-        from { transform: translateY(0); }
-        to { transform: translateY(-10px); }
-    }
-    
-    .beach-decoration {
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        width: 100%;
-        height: 60px;
-        background: #f8e9a1;
-        z-index: -1;
-    }
-    
-    .palm-tree {
-        position: absolute;
-        font-size: 3rem;
-        animation: sway 3s ease-in-out infinite alternate;
-        z-index: -1; /* Move palm trees behind content */
-    }
-    
-    @keyframes sway {
-        from { transform: rotate(-5deg); }
-        to { transform: rotate(5deg); }
-    }
-    
-    .wave {
-        position: fixed;
-        bottom: 0;
-        left: 0;
-        width: 100%;
-        height: 80px;
-        background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 120' preserveAspectRatio='none'%3E%3Cpath d='M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,32.43,512.34,53.67,583,72.05c69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113-14.29,1200,52.47V0Z' fill='%2300d4ff' opacity='.25'%3E%3C/path%3E%3Cpath d='M0,0V15.81C13,36.92,27.64,56.86,47.69,72.05,99.41,111.27,165,111,224.58,91.58c31.15-10.15,60.09-26.07,89.67-39.8,40.92-19,84.73-46,130.83-49.67,36.26-2.85,70.9,9.42,98.6,31.56,31.77,25.39,62.32,62,103.63,73,40.44,10.79,81.35-6.69,119.13-24.28s75.16-39,116.92-43.05c59.73-5.85,113.28,22.88,168.9,38.84,30.2,8.66,59,6.17,87.09-7.5,22.43-10.89,48-26.93,60.65-49.24V0Z' fill='%2300d4ff' opacity='.5'%3E%3C/path%3E%3Cpath d='M0,0V5.63C149.93,59,314.09,71.32,475.83,42.57c43-7.64,84.23-20.12,127.61-26.46,59-8.63,112.48,12.24,165.56,35.4C827.93,77.22,886,95.24,951.2,90c86.53-7,172.46-45.71,248.8-84.81V0Z' fill='%2300d4ff' opacity='.75'%3E%3C/path%3E%3C/svg%3E");
-        background-size: cover;
-        background-repeat: no-repeat;
-        z-index: -1;
-    }
-    
-    .game-title {
-        text-shadow: 3px 3px 0 #ff00aa, 6px 6px 0 rgba(0,0,0,0.2);
-        letter-spacing: 1px;
-    }
-    
-    .door-emoji {
-        font-size: 3rem;
-        margin-bottom: 1rem;
-        filter: drop-shadow(2px 2px 3px rgba(0,0,0,0.3));
-    }
-    
-    .login-screen {
-        animation: fadeIn 0.6s ease-out;
-    }
-    
-    .code-input {
-        letter-spacing: 8px;
-        font-size: 24px;
-        text-align: center;
-    }
-    
-    .key-button {
-        transition: all 0.2s;
-    }
-    
-    .key-button:active {
-        transform: scale(0.95);
-        background-color: #3182ce;
-    }
-    
-    .shake {
-        animation: shake 0.5s;
-    }
-    
-    @keyframes shake {
-        0%, 100% { transform: translateX(0); }
-        10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
-        20%, 40%, 60%, 80% { transform: translateX(5px); }
-    }
-    
-    .folio-number {
-        font-family: 'Courier New', monospace;
-        letter-spacing: 2px;
-        font-weight: bold;
-        background: #f8f8f8;
-        border: 2px dashed #ff5733;
-        padding: 8px 16px;
-        border-radius: 8px;
-        display: inline-block;
-        margin: 10px 0;
-        box-shadow: 0 3px 6px rgba(0,0,0,0.1);
-    }
-    
-    .lost-money {
-        color: #e53e3e;
-        font-weight: bold;
+    .pulse {
         animation: pulse 1.5s infinite;
     }
     
     @keyframes pulse {
-        0% { opacity: 1; }
-        50% { opacity: 0.7; }
-        100% { opacity: 1; }
-    }
-    
-    /* Mobile optimizations */
-    @media (max-width: 640px) {
-        .door {
-            height: 200px !important;
+        0% {
+            transform: scale(1);
         }
-        
-        .door-emoji {
-            font-size: 2.5rem;
+        50% {
+            transform: scale(1.05);
         }
-        
-        .game-title {
-            font-size: 2rem !important;
-        }
-        
-        .palm-tree {
-            font-size: 2rem;
-        }
-        
-        .company-name {
-            font-size: 1.2rem !important;
+        100% {
+            transform: scale(1);
         }
     }
     
-    /* Vibrant button styles */
-    .vibrant-button {
-        background: linear-gradient(135deg, #ff00aa, #00d4ff);
-        color: white;
-        font-weight: bold;
-        border-radius: 12px;
-        padding: 12px 24px;
-        transition: all 0.3s;
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-        border: none;
-        outline: none;
+    .prize-icon {
+        font-size: 2.5rem;
+        margin-bottom: 0.5rem;
     }
     
-    .vibrant-button:hover, .vibrant-button:focus {
-        background: linear-gradient(135deg, #ff00dd, #00a0ff);
-        transform: translateY(-2px);
-        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
-    }
-    
-    .vibrant-button:active {
-        transform: translateY(1px);
-    }
-    
-    /* Vibrant input styles */
-    .vibrant-input {
-        border: 3px solid #ff00aa;
-        border-radius: 12px;
-        padding: 12px 16px;
-        transition: all 0.3s;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-        background-color: rgba(255, 255, 255, 0.9);
-    }
-    
-    .vibrant-input:focus {
-        border-color: #00d4ff;
-        box-shadow: 0 4px 15px rgba(0, 212, 255, 0.3);
-        outline: none;
-    }
-    
-    /* Vibrant keypad */
-    .vibrant-keypad button {
-        background: linear-gradient(135deg, #ff00aa, #ff6a00);
-        color: white;
-        font-weight: bold;
-        border-radius: 12px;
-        transition: all 0.2s;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
-    }
-    
-    .vibrant-keypad button:hover, .vibrant-keypad button:focus {
-        background: linear-gradient(135deg, #ff00dd, #ff8c00);
-        transform: translateY(-2px);
-    }
-    
-    .vibrant-keypad button:active {
-        transform: translateY(1px);
-    }
-    
-    /* Player info in modal */
-    .player-info-bar {
-        background: linear-gradient(135deg, #6a11cb, #2575fc);
-        color: white;
-        border-radius: 8px;
-        padding: 10px;
-        margin-bottom: 15px;
-        box-shadow: 0 3px 10px rgba(0,0,0,0.2);
-        animation: fadeIn 0.5s ease-out;
-    }
-    
-    .player-info-label {
-        font-weight: bold;
-        color: rgba(255,255,255,0.8);
-    }
-    
-    .player-info-value {
-        font-weight: bold;
-    }
-    
-    /* Catafixia styles */
-    .catafixia-container {
-        background: linear-gradient(135deg, #ff9900, #ff3300);
+    .result-card {
+        background: rgba(255, 255, 255, 0.15);
+        backdrop-filter: blur(10px);
         border-radius: 16px;
         padding: 20px;
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-        border: 5px solid #ffcc00;
-        position: relative;
-        overflow: hidden;
+        box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.3);
     }
     
-    .catafixia-title {
-        text-shadow: 2px 2px 0 #ff3300, 4px 4px 0 rgba(0,0,0,0.2);
-        color: #ffcc00;
-    }
-    
-    .catafixia-icon {
-        font-size: 3rem;
-        animation: spin 4s linear infinite;
-        display: inline-block;
-    }
-    
-    @keyframes spin {
-        from { transform: rotate(0deg); }
-        to { transform: rotate(360deg); }
-    }
-    
-    .prize-amount {
-        font-size: 1.5rem;
-        font-weight: bold;
-        color: #ffcc00;
-        text-shadow: 1px 1px 0 #000;
-        background: rgba(0,0,0,0.2);
-        padding: 5px 10px;
-        border-radius: 8px;
-        display: inline-block;
-    }
-    
-    .mega-prize {
-        animation: glow 2s infinite alternate;
-        color: #ffcc00;
-        font-weight: bold;
-        text-shadow: 0 0 10px #ff9900, 0 0 20px #ff6600;
-    }
-    
-    @keyframes glow {
-        from { text-shadow: 0 0 10px #ff9900, 0 0 20px #ff6600; }
-        to { text-shadow: 0 0 15px #ff9900, 0 0 30px #ff6600, 0 0 40px #ff3300; }
-    }
-    
-    /* Company name styles - SMALLER SIZE */
-    .company-name {
-        font-size: 1.5rem; /* Reduced from 2rem */
-        font-weight: bold;
-        background: linear-gradient(to right, #ff9900, #ff3300);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
-        letter-spacing: 1px;
-    }
-    
-    /* Disclaimer styles */
-    .disclaimer {
-        background-color: rgba(255, 255, 255, 0.8);
-        border-radius: 10px;
-        padding: 15px;
-        margin-top: 20px;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-        font-size: 0.9rem;
-        color: #555;
-        text-align: center;
-        border-left: 4px solid #ff00aa;
-    }
-    
-    /* Prize list styles */
-    .prize-list-container {
-        background: linear-gradient(135deg, #6a11cb, #2575fc);
-        border-radius: 12px;
-        padding: 15px;
-        margin-bottom: 20px;
-        box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-        border: 3px solid #fff;
-    }
-    
-    .prize-list-title {
-        color: #ffcc00;
-        font-weight: bold;
-        text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
-        margin-bottom: 10px;
-        text-align: center;
-    }
-    
-    .prize-list {
-        list-style-type: none;
-        padding: 0;
-        margin: 0;
-    }
-    
-    .prize-list li {
-        background: rgba(255,255,255,0.2);
-        margin-bottom: 8px;
-        padding: 8px 12px;
-        border-radius: 8px;
-        color: white;
-        font-weight: bold;
+    .result-item {
         display: flex;
-        align-items: center;
+        justify-content: space-between;
+        padding: 8px 0;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.2);
     }
     
-    .prize-list li:last-child {
-        margin-bottom: 0;
-    }
-    
-    .prize-emoji {
-        margin-right: 10px;
-        font-size: 1.2rem;
-    }
-    
-    .upgrade-badge {
-        background: linear-gradient(135deg, #ff00aa, #ff6a00);
-        color: white;
-        font-weight: bold;
-        padding: 5px 10px;
-        border-radius: 20px;
-        font-size: 0.9rem;
-        display: inline-block;
-        margin-bottom: 8px;
-        box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-        animation: pulse 2s infinite alternate;
+    .result-item:last-child {
+        border-bottom: none;
     }
 </style>
-<!-- Login Screen - Password -->
-<div id="login-screen-password" class="login-screen w-full max-w-md bg-white bg-opacity-95 rounded-xl p-6 shadow-2xl relative overflow-hidden">
-    <!-- Palm trees repositioned to not overlap with text -->
-    <div class="absolute top-2 left-0 palm-tree">🌴</div>
-    <div class="absolute top-2 right-0 palm-tree">🌴</div>
-    
-    <div class="text-center mb-2 mt-8">
-        <span class="company-name">TOURS AVENTURAS POR LA BAJA</span>
-    </div>
-    
-    <h1 class="text-4xl font-bold text-center mb-6 text-blue-600 game-title">🏝️ Puertas Mágicas 🏝️</h1>
-    
-    <div class="mb-6 text-center">
-        <p class="text-lg mb-2 font-bold text-purple-700">Ingresa el código para comenzar:</p>
-        <input type="password" id="code-input" class="code-input w-full p-4 vibrant-input mb-4" maxlength="8" readonly>
-        
-        <div class="grid grid-cols-3 gap-2 mb-4 vibrant-keypad">
-            <button class="key-button text-2xl font-bold p-4 rounded-lg shadow-md">1</button>
-            <button class="key-button text-2xl font-bold p-4 rounded-lg shadow-md">2</button>
-            <button class="key-button text-2xl font-bold p-4 rounded-lg shadow-md">3</button>
-            <button class="key-button text-2xl font-bold p-4 rounded-lg shadow-md">4</button>
-            <button class="key-button text-2xl font-bold p-4 rounded-lg shadow-md">5</button>
-            <button class="key-button text-2xl font-bold p-4 rounded-lg shadow-md">6</button>
-            <button class="key-button text-2xl font-bold p-4 rounded-lg shadow-md">7</button>
-            <button class="key-button text-2xl font-bold p-4 rounded-lg shadow-md">8</button>
-            <button class="key-button text-2xl font-bold p-4 rounded-lg shadow-md">9</button>
-            <button class="key-button text-2xl font-bold p-4 rounded-lg shadow-md">0</button>
-            <button id="submit-code" class="col-span-1 bg-gradient-to-r from-green-500 to-green-600 text-xl font-bold p-4 rounded-lg shadow-md">✓</button>
-            <button id="clear-code" class="col-span-1 bg-gradient-to-r from-red-500 to-red-600 text-xl font-bold p-4 rounded-lg shadow-md">⌫</button>
-        </div>
-        
-        <p id="login-message" class="text-red-500 font-medium hidden">Código incorrecto. Intenta de nuevo.</p>
-    </div>
-</div>
-
-<!-- Login Screen - User Info -->
-<div id="login-screen-info" class="hidden login-screen w-full max-w-md bg-white bg-opacity-95 rounded-xl p-6 shadow-2xl relative overflow-hidden">
-    <!-- Palm trees repositioned to not overlap with text -->
-    <div class="absolute top-2 left-0 palm-tree">🌴</div>
-    <div class="absolute top-2 right-0 palm-tree">🌴</div>
-    
-    <div class="text-center mb-2 mt-8">
-        <span class="company-name">TOURS AVENTURAS POR LA BAJA</span>
-    </div>
-    
-    <h1 class="text-4xl font-bold text-center mb-6 text-blue-600 game-title">🏝️ Puertas Mágicas 🏝️</h1>
-    
-    <div class="mb-6">
-        <p class="text-lg mb-4 font-bold text-center text-purple-700">¡Código correcto! Completa tus datos:</p>
-        
-        <div class="mb-4">
-            <label for="user-name" class="block text-lg font-medium text-gray-700 mb-2">Nombre completo:</label>
-            <input type="text" id="user-name" class="w-full p-4 vibrant-input" placeholder="Escribe tu nombre aquí">
-        </div>
-        
-        <div class="mb-6">
-            <label for="user-phone" class="block text-lg font-medium text-gray-700 mb-2">Número de teléfono:</label>
-            <input type="tel" id="user-phone" class="w-full p-4 vibrant-input" placeholder="Ej: 123-456-7890">
-        </div>
-        
-        <button id="submit-info" class="w-full vibrant-button text-xl py-4">
-            ¡Comenzar Juego! 🎮
-        </button>
-        
-        <p id="info-message" class="text-red-500 font-medium mt-3 hidden">Por favor completa todos los campos.</p>
-    </div>
-</div>
-
-<!-- Game Screen (Initially Hidden) -->
-<div id="game-container" class="hidden w-full max-w-4xl bg-white bg-opacity-90 rounded-xl p-6 shadow-2xl relative overflow-hidden">
-    <!-- Palm trees repositioned to not overlap with text -->
-    <div class="absolute top-2 left-0 palm-tree">🌴</div>
-    <div class="absolute top-2 right-0 palm-tree">🌴</div>
-    
-    <div class="text-center mb-2 mt-8">
-        <span class="company-name">TOURS AVENTURAS POR LA BAJA</span>
-    </div>
-    
-    <h1 class="text-4xl font-bold text-center mb-4 text-blue-600 game-title">🏝️ Puertas Mágicas 🏝️</h1>
-    <p class="text-center text-lg mb-6">¡Abre puertas, gana premios y descubre la magia!</p>
-    
-    <div id="user-info-display" class="mb-4 p-3 bg-gradient-to-r from-purple-400 to-pink-500 rounded-lg text-white shadow-lg">
-        <p class="text-center font-medium">Jugador: <span id="display-name">Nombre</span> | Tel: <span id="display-phone">Teléfono</span></p>
-    </div>
-    
-    <div id="stats" class="flex justify-between mb-6 p-4 bg-gradient-to-r from-yellow-300 to-orange-500 rounded-lg shadow-lg">
-        <div class="text-xl font-semibold flex items-center">
-            <span class="mr-2">🏆</span> Nivel: <span id="level" class="ml-1 text-2xl">1</span>/5
-        </div>
-        <div class="text-xl font-semibold flex items-center">
-            <span class="mr-2">💰</span> Ganancia: <span id="money" class="ml-1 text-2xl">0</span> pesos
-        </div>
-    </div>
-    
-    <div id="message" class="text-center mb-6 text-xl font-medium text-white bg-gradient-to-r from-blue-500 to-purple-600 p-4 rounded-lg shadow-md">
-        <div class="upgrade-badge">¡Mejora tu premio!</div>
-        <span class="mr-2">🚪</span> Elige una puerta para ganar un premio. ¡La aventura te espera!
-    </div>
-    
-    <!-- Prize list for level 4 -->
-    <div id="prize-list-container" class="hidden prize-list-container mb-6">
-        <h3 class="prize-list-title text-xl">Premios posibles tras la puerta:</h3>
-        <ul class="prize-list">
-            <li><span class="prize-emoji">⛵</span> Paseo en barco</li>
-            <li><span class="prize-emoji">🍷</span> Vino gratis</li>
-            <li><span class="prize-emoji">💰</span> 50 pesos de descuento</li>
-            <li><span class="prize-emoji">🎁</span> Premio sorpresa</li>
-        </ul>
-    </div>
-    
-    <div id="doors-container" class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-        <!-- Doors will be generated here -->
-    </div>
-    
-    <div id="final-prize" class="hidden text-center p-5 bg-gradient-to-r from-yellow-300 to-yellow-500 rounded-lg mb-6 shadow-lg">
-        <div class="flex justify-center space-x-4 mb-2">
-            <span class="text-3xl">🎁</span>
-            <span class="text-3xl">🏆</span>
-            <span class="text-3xl">🎉</span>
-        </div>
-        <p class="text-xl font-semibold">¡Última ronda! Si ganas, recibirás un premio especial:</p>
-        <p class="text-2xl font-bold text-red-600 mt-2">¡Un premio sorpresa te espera!</p>
-    </div>
-    
-    <!-- Catafixia Container -->
-    <div id="catafixia-container" class="hidden catafixia-container mb-6 text-center">
-        <h3 class="text-3xl font-bold mb-3 catafixia-title">¡CATAFIXIA! <span class="catafixia-icon">🎰</span></h3>
-        <p class="text-xl text-white mb-4">¿Te atreves a arriesgar todo por el GRAN PREMIO?</p>
-        <div class="mb-4">
-            <p class="text-lg text-white mb-2">Si aceptas, podrías ganar:</p>
-            <p class="mega-prize text-2xl mb-3">🏆 VIAJE GRATIS A RUTA DEL VINO 🏆</p>
-        </div>
-        <div class="flex justify-center space-x-4">
-            <button id="reject-catafixia" class="bg-gradient-to-r from-gray-600 to-gray-800 hover:from-gray-700 hover:to-gray-900 text-white font-bold py-3 px-6 rounded-lg transition duration-300 shadow-md">
-                No, gracias
-            </button>
-            <button id="accept-catafixia" class="vibrant-button py-3 px-6">
-                ¡Acepto el reto!
+        <div class="space-y-4 max-w-md mx-auto">
+            <div>
+                <label class="block text-sm font-medium mb-1">Folio de Acceso:</label>
+                <input type="text" id="folio-input" class="w-full px-4 py-2 rounded-lg bg-white/20 backdrop-blur-sm border border-white/30 focus:outline-none focus:ring-2 focus:ring-yellow-400" placeholder="Ingresa tu folio">
+                <p class="text-xs mt-1 text-yellow-200">Folio requerido: 18062025</p>
+            </div>
+            
+            <div>
+                <label class="block text-sm font-medium mb-1">Nombre Completo:</label>
+                <input type="text" id="name-input" class="w-full px-4 py-2 rounded-lg bg-white/20 backdrop-blur-sm border border-white/30 focus:outline-none focus:ring-2 focus:ring-yellow-400" placeholder="Ingresa tu nombre completo">
+            </div>
+            
+            <div>
+                <label class="block text-sm font-medium mb-1">Número de Teléfono:</label>
+                <input type="tel" id="phone-input" class="w-full px-4 py-2 rounded-lg bg-white/20 backdrop-blur-sm border border-white/30 focus:outline-none focus:ring-2 focus:ring-yellow-400" placeholder="10 dígitos" maxlength="10">
+            </div>
+            
+            <button id="start-button" class="w-full bg-gradient-to-r from-yellow-400 to-yellow-600 text-black font-bold py-3 px-6 rounded-lg mt-6 hover:from-yellow-300 hover:to-yellow-500 transition-all shadow-lg pulse">
+                ¡COMENZAR JUEGO!
             </button>
         </div>
     </div>
     
-    <button id="restart-button" class="hidden mx-auto block vibrant-button text-xl py-3 px-8">
-        🔄 Jugar de nuevo
-    </button>
-    
-    <!-- Disclaimer -->
-    <div class="disclaimer mt-8">
-        <p>Este juego es con fin recreativo. El uso del mismo así como participación en la dinámica se deja a discreción del cliente final. Todos los derechos reservados para ToursAventurasPorLaBaja.</p>
-    </div>
-</div>
-
-<!-- Confirmation Modal -->
-<div id="confirmation-modal" class="hidden fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50 p-4">
-    <div class="modal bg-white rounded-xl p-6 max-w-md w-full mx-4 shadow-2xl border-4 border-yellow-400">
-        <h3 class="text-2xl font-bold text-center mb-4 text-blue-600">¿Estás seguro? 🤔</h3>
-        <p class="text-center mb-6 text-lg">Si pierdes, perderás todo lo que has ganado hasta ahora.</p>
-        <div class="flex flex-wrap justify-center gap-4">
-            <button id="cancel-choice" class="bg-gradient-to-r from-gray-500 to-gray-600 hover:from-gray-600 hover:to-gray-700 text-white font-bold py-3 px-6 rounded-lg transition duration-300 shadow-md">
-                ❌ Cancelar
-            </button>
-            <button id="confirm-choice" class="vibrant-button py-3 px-6">
-                ✅ Confirmar
-            </button>
-        </div>
-    </div>
-</div>
-
-<!-- Result Modal -->
-<div id="result-modal" class="hidden fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50 p-4">
-    <div class="modal bg-white rounded-xl p-8 max-w-md w-full mx-4 shadow-2xl border-4 border-yellow-400">
-        <!-- Company name in modal - smaller size -->
-        <div class="text-center mb-3">
-            <span class="company-name text-lg">TOURS AVENTURAS POR LA BAJA</span>
-        </div>
-        
-        <!-- Player info bar (always visible) -->
-        <div class="player-info-bar">
-            <div class="flex justify-between items-center">
+    <!-- Game Screen -->
+    <div id="game" class="hidden">
+        <div class="bg-white/10 backdrop-blur-md rounded-xl p-6 shadow-2xl mb-6">
+            <h1 class="text-3xl font-bold text-center mb-2 text-yellow-300">Tours Aventuras por la Baja</h1>
+            <h2 id="level-title" class="text-2xl font-semibold text-center mb-4">Nivel 1</h2>
+            <div id="player-info" class="flex flex-col md:flex-row justify-between items-center mb-6 p-3 bg-white/5 rounded-lg">
                 <div>
-                    <span class="player-info-label">Jugador:</span> 
-                    <span id="result-player-name" class="player-info-value">Nombre</span>
+                    <p><span class="font-semibold">Nombre:</span> <span id="player-name"></span></p>
+                    <p><span class="font-semibold">Folio:</span> <span id="player-folio"></span></p>
                 </div>
                 <div>
-                    <span class="player-info-label">Tel:</span> 
-                    <span id="result-player-phone" class="player-info-value">Teléfono</span>
+                    <p><span class="font-semibold">Teléfono:</span> <span id="player-phone"></span></p>
+                    <p id="winnings-container" class="hidden"><span class="font-semibold">Ganado:</span> <span id="player-winnings" class="text-yellow-300 font-bold">$0</span></p>
+                </div>
+            </div>
+            
+            <p id="game-instructions" class="text-center mb-6 text-lg">Elige una puerta para descubrir tu premio. ¡Buena suerte!</p>
+            
+            <div id="doors-container" class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                <!-- Doors will be generated here -->
+            </div>
+            
+            <div id="continue-container" class="hidden text-center">
+                <p class="mb-4 text-lg">¿Quieres mejorar tu premio?</p>
+                <div class="flex flex-col md:flex-row justify-center gap-4">
+                    <button id="continue-yes" class="bg-gradient-to-r from-green-500 to-green-700 text-white font-bold py-3 px-6 rounded-lg hover:from-green-400 hover:to-green-600 transition-all shadow-lg">
+                        ¡SÍ, QUIERO MÁS!
+                    </button>
+                    <button id="continue-no" class="bg-gradient-to-r from-red-500 to-red-700 text-white font-bold py-3 px-6 rounded-lg hover:from-red-400 hover:to-red-600 transition-all shadow-lg">
+                        NO, TOMAR PREMIO
+                    </button>
                 </div>
             </div>
         </div>
-        
-        <div id="result-icon" class="prize-icon text-center">🎉</div>
-        <h3 id="result-title" class="text-3xl font-bold mb-4 text-center">¡Felicidades!</h3>
-        <p id="result-message" class="text-xl mb-3 text-center">Has ganado 20 pesos.</p>
-        
-        <!-- Loss details (hidden by default) -->
-        <div id="loss-details" class="hidden">
-            <p class="text-xl mb-2 text-center lost-money">¡Has perdido todo tu dinero!</p>
-            <div class="text-center mb-4">
-                <p class="text-lg mb-1">Folio de transacción:</p>
-                <div id="folio-number" class="folio-number">12345</div>
+    </div>
+    
+    <!-- Result Screen -->
+    <div id="result" class="hidden bg-white/10 backdrop-blur-md rounded-xl p-6 shadow-2xl text-center">
+        <h2 id="result-title" class="text-3xl font-bold mb-6 text-yellow-300">¡Felicidades!</h2>
+        <div id="result-content" class="mb-6">
+            <p class="text-xl mb-4">Has ganado: <span id="final-prize" class="font-bold text-yellow-300 text-2xl"></span></p>
+            <div class="result-card max-w-md mx-auto">
+                <div class="result-item">
+                    <span class="font-semibold">Nombre:</span>
+                    <span id="result-name"></span>
+                </div>
+                <div class="result-item">
+                    <span class="font-semibold">Folio:</span>
+                    <span id="result-folio"></span>
+                </div>
+                <div class="result-item">
+                    <span class="font-semibold">Teléfono:</span>
+                    <span id="result-phone"></span>
+                </div>
+                <div class="result-item">
+                    <span class="font-semibold">Fecha:</span>
+                    <span id="result-date"></span>
+                </div>
+                <div class="result-item">
+                    <span class="font-semibold">Premio:</span>
+                    <span id="result-prize" class="text-yellow-300 font-bold"></span>
+                </div>
             </div>
+            <p class="text-sm mt-4 bg-white/20 inline-block px-4 py-2 rounded-full">Toma una captura de pantalla para reclamar tu premio</p>
         </div>
+        <div class="flex flex-col md:flex-row justify-center gap-4">
+            <button id="restart-button" class="bg-gradient-to-r from-blue-500 to-blue-700 text-white font-bold py-3 px-6 rounded-lg hover:from-blue-400 hover:to-blue-600 transition-all shadow-lg">
+                JUGAR DE NUEVO
+            </button>
+            <button id="new-player-button" class="bg-gradient-to-r from-purple-500 to-purple-700 text-white font-bold py-3 px-6 rounded-lg hover:from-purple-400 hover:to-purple-600 transition-all shadow-lg">
+                NUEVO JUGADOR
+            </button>
+        </div>
+    </div>
+    
+    <!-- Final Level Confirmation -->
+    <div id="final-confirmation" class="hidden bg-white/10 backdrop-blur-md rounded-xl p-6 shadow-2xl text-center">
+        <h2 class="text-3xl font-bold mb-6 text-yellow-300">¡Última Oportunidad!</h2>
+        <p class="text-xl mb-6">¿Quieres intentar ganar el PREMIO MAYOR?</p>
+        <p class="text-lg mb-8 text-yellow-200 font-bold">¡Un viaje GRATIS a Valle de Guadalupe!</p>
+        <p class="text-red-300 mb-6">ADVERTENCIA: Si continúas, perderás lo que ya has ganado.</p>
         
-        <button id="continue-button" class="w-full vibrant-button py-3 px-6 text-xl">
-            Continuar 🚀
-        </button>
+        <div class="flex flex-col md:flex-row justify-center gap-4">
+            <button id="final-yes" class="bg-gradient-to-r from-purple-500 to-purple-700 text-white font-bold py-3 px-6 rounded-lg hover:from-purple-400 hover:to-purple-600 transition-all shadow-lg">
+                ¡SÍ, QUIERO EL PREMIO MAYOR!
+            </button>
+            <button id="final-no" class="bg-gradient-to-r from-gray-500 to-gray-700 text-white font-bold py-3 px-6 rounded-lg hover:from-gray-400 hover:to-gray-600 transition-all shadow-lg">
+                NO, MANTENER MI PREMIO
+            </button>
+        </div>
     </div>
 </div>
 
 <script>
     // Game state
     const gameState = {
-        level: 1,
-        money: 0,
-        selectedDoorIndex: null,
-        doorColors: [
-            '#FF5733', // Sunset orange
-            '#33A8FF', // Ocean blue
-            '#FF9F33', // Sand yellow
-            '#33FFB8', // Tropical green
-            '#FF33A8', // Vibrant pink
-            '#33FFF5'  // Turquoise
-        ],
-        doorEmojis: ['🏖️', '🌮', '🌵', '🍹', '🐠', '🏄‍♂️', '🌊', '🐚', '🐬'],
-        winProbability: 0.30, // 40% chance to win for levels 1-3
-        level4WinProbability: 0.25, // 25% chance to win for level 4 (special prizes)
-        catafixiaProbability: 0.02, // 2% chance to win the grand prize
-        correctCode: '18062025',
-        userName: '',
-        userPhone: '',
-        // New prize structure
-        levelPrizes: [20, 30, 50, 0], // Level 4 prize is special (random)
-        finalPrizes: ['Paseo en barco ⛵', 'Vino gratis 🍷', '50 pesos de descuento 💰', 'Premio sorpresa 🎁'],
-        grandPrize: 'Viaje gratis a Ruta del Vino 🍇',
-        // Track accumulated winnings from first 3 levels
-        accumulatedWinnings: 0
+        currentLevel: 1,
+        maxLevel: 5,
+        playerName: '',
+        playerPhone: '',
+        playerFolio: '',
+        totalWinnings: 0,
+        hasWon: false,
+        doorSelected: false
     };
     
-    // DOM elements - Login screens
-    const loginScreenPassword = document.getElementById('login-screen-password');
-    const loginScreenInfo = document.getElementById('login-screen-info');
-    const codeInput = document.getElementById('code-input');
-    const submitCodeButton = document.getElementById('submit-code');
-    const clearCodeButton = document.getElementById('clear-code');
-    const loginMessage = document.getElementById('login-message');
-    const keyButtons = document.querySelectorAll('.key-button');
-    const userNameInput = document.getElementById('user-name');
-    const userPhoneInput = document.getElementById('user-phone');
-    const submitInfoButton = document.getElementById('submit-info');
-    const infoMessage = document.getElementById('info-message');
+    // Level configurations - All win probabilities set to 100%
+    const levelConfig = {
+        1: { doors: 3, winProbability: 1.0, prize: 20, icon: '💰' },
+        2: { doors: 3, winProbability: 1.0, prize: 30, icon: '💰' },
+        3: { doors: 3, winProbability: 1.0, prize: 50, icon: '💰' },
+        4: { 
+            doors: 3, 
+            winProbability: 1.0, 
+            prizes: [
+                { name: "Vino Gratis", probability: 0.2, icon: '🍷' },
+                { name: "Paseo en Barco", probability: 0.3, icon: '🚢' },
+                { name: "100 Pesos de Descuento", probability: 0.3, icon: '💵' },
+                { name: "Premio Sorpresa", probability: 0.2, icon: '🎁' }
+            ]
+        },
+        5: { doors: 3, winProbability: 1.0, prize: "Viaje Gratis a Valle de Guadalupe", icon: '✈️' }
+    };
     
-    // DOM elements - Game
-    const gameContainer = document.getElementById('game-container');
-    const displayName = document.getElementById('display-name');
-    const displayPhone = document.getElementById('display-phone');
+    // DOM Elements
+    const registrationScreen = document.getElementById('registration');
+    const gameScreen = document.getElementById('game');
+    const resultScreen = document.getElementById('result');
+    const finalConfirmationScreen = document.getElementById('final-confirmation');
+    
+    const folioInput = document.getElementById('folio-input');
+    const nameInput = document.getElementById('name-input');
+    const phoneInput = document.getElementById('phone-input');
+    const startButton = document.getElementById('start-button');
+    
+    const levelTitle = document.getElementById('level-title');
+    const playerNameDisplay = document.getElementById('player-name');
+    const playerFolioDisplay = document.getElementById('player-folio');
+    const playerPhoneDisplay = document.getElementById('player-phone');
+    const playerWinningsDisplay = document.getElementById('player-winnings');
+    const winningsContainer = document.getElementById('winnings-container');
     const doorsContainer = document.getElementById('doors-container');
-    const levelDisplay = document.getElementById('level');
-    const moneyDisplay = document.getElementById('money');
-    const messageDisplay = document.getElementById('message');
-    const finalPrizeDisplay = document.getElementById('final-prize');
-    const prizeListContainer = document.getElementById('prize-list-container');
-    const catafixiaContainer = document.getElementById('catafixia-container');
-    const acceptCatafixiaButton = document.getElementById('accept-catafixia');
-    const rejectCatafixiaButton = document.getElementById('reject-catafixia');
-    const restartButton = document.getElementById('restart-button');
-    const confirmationModal = document.getElementById('confirmation-modal');
-    const cancelChoiceButton = document.getElementById('cancel-choice');
-    const confirmChoiceButton = document.getElementById('confirm-choice');
-    const resultModal = document.getElementById('result-modal');
-    const resultIcon = document.getElementById('result-icon');
+    const continueContainer = document.getElementById('continue-container');
+    const continueYesButton = document.getElementById('continue-yes');
+    const continueNoButton = document.getElementById('continue-no');
+    
     const resultTitle = document.getElementById('result-title');
-    const resultMessage = document.getElementById('result-message');
-    const resultPlayerName = document.getElementById('result-player-name');
-    const resultPlayerPhone = document.getElementById('result-player-phone');
-    const lossDetails = document.getElementById('loss-details');
-    const folioNumber = document.getElementById('folio-number');
-    const continueButton = document.getElementById('continue-button');
+    const finalPrize = document.getElementById('final-prize');
+    const resultName = document.getElementById('result-name');
+    const resultFolio = document.getElementById('result-folio');
+    const resultPhone = document.getElementById('result-phone');
+    const resultDate = document.getElementById('result-date');
+    const resultPrize = document.getElementById('result-prize');
+    const restartButton = document.getElementById('restart-button');
+    const newPlayerButton = document.getElementById('new-player-button');
     
-    // Generate random 5-digit folio number
-    function generateFolioNumber() {
-        return Math.floor(10000 + Math.random() * 90000).toString();
-    }
+    const finalYesButton = document.getElementById('final-yes');
+    const finalNoButton = document.getElementById('final-no');
     
-    // Login functionality - Password
-    keyButtons.forEach(button => {
-        button.addEventListener('click', () => {
-            const value = button.textContent;
-            if (value.length === 1 && codeInput.value.length < 8) {
-                codeInput.value += value;
-            }
-        });
+    // Event Listeners
+    startButton.addEventListener('click', startGame);
+    continueYesButton.addEventListener('click', nextLevel);
+    continueNoButton.addEventListener('click', showResult);
+    restartButton.addEventListener('click', restartGame);
+    newPlayerButton.addEventListener('click', resetGame);
+    finalYesButton.addEventListener('click', playFinalLevel);
+    finalNoButton.addEventListener('click', showResult);
+    
+    // Phone input validation
+    phoneInput.addEventListener('input', function(e) {
+        e.target.value = e.target.value.replace(/[^0-9]/g, '').substring(0, 10);
     });
     
-    clearCodeButton.addEventListener('click', () => {
-        codeInput.value = codeInput.value.slice(0, -1);
-    });
-    
-    submitCodeButton.addEventListener('click', () => {
-        if (codeInput.value === gameState.correctCode) {
-            loginScreenPassword.classList.add('hidden');
-            loginScreenInfo.classList.remove('hidden');
-        } else {
-            loginMessage.classList.remove('hidden');
-            codeInput.classList.add('shake');
-            setTimeout(() => {
-                codeInput.classList.remove('shake');
-            }, 500);
-            setTimeout(() => {
-                codeInput.value = '';
-                loginMessage.classList.add('hidden');
-            }, 1500);
-        }
-    });
-    
-    // Login functionality - User Info
-    submitInfoButton.addEventListener('click', () => {
-        const name = userNameInput.value.trim();
-        const phone = userPhoneInput.value.trim();
+    // Game Functions
+    function startGame() {
+        const folio = folioInput.value.trim();
+        const name = nameInput.value.trim();
+        const phone = phoneInput.value.trim();
         
-        if (name && phone) {
-            gameState.userName = name;
-            gameState.userPhone = phone;
-            loginScreenInfo.classList.add('hidden');
-            gameContainer.classList.remove('hidden');
-            displayName.textContent = name;
-            displayPhone.textContent = phone;
-            initGame();
-        } else {
-            infoMessage.classList.remove('hidden');
-            setTimeout(() => {
-                infoMessage.classList.add('hidden');
-            }, 2000);
+        if (folio !== '18062025') {
+            alert('Folio incorrecto. Por favor ingresa el folio válido.');
+            return;
         }
-    });
-    
-    // Initialize game
-    function initGame() {
-        gameState.level = 1;
-        gameState.money = 0;
-        gameState.accumulatedWinnings = 0; // Reset accumulated winnings
-        updateDisplay();
-        generateDoors();
-        restartButton.classList.add('hidden');
-        finalPrizeDisplay.classList.add('hidden');
-        prizeListContainer.classList.add('hidden');
-        catafixiaContainer.classList.add('hidden');
-    }
-    
-    // Update display
-    function updateDisplay() {
-        levelDisplay.textContent = gameState.level;
-        moneyDisplay.textContent = gameState.money;
         
-        if (gameState.level === 4) {
-            finalPrizeDisplay.classList.remove('hidden');
-            prizeListContainer.classList.remove('hidden');
-            messageDisplay.innerHTML = `
-                <div class="upgrade-badge">¡Mejora tu premio!</div>
-                <span class='mr-2'>🎯</span> ¡Última ronda! Elige una puerta para ganar un premio especial y no olvides tomar screenshot.
-            `;
-        } else if (gameState.level === 5) {
-            // Catafixia level
-            catafixiaContainer.classList.remove('hidden');
-            prizeListContainer.classList.add('hidden');
-            messageDisplay.innerHTML = `
-                <div class="upgrade-badge">¡Mejora tu premio!</div>
-                <span class='mr-2'>🎰</span> ¡Nivel CATAFIXIA!Decide si quieres arriesgar todo por el Viaje Gratis Valle de Guadalupe no olvides hacer screenshot.
-            `;
-            doorsContainer.innerHTML = ''; // Hide doors in catafixia level
-        } else {
-            prizeListContainer.classList.add('hidden');
-            const currentPrize = gameState.levelPrizes[gameState.level - 1];
-            messageDisplay.innerHTML = `
-                <div class="upgrade-badge">¡Mejora tu premio!</div>
-                <span class='mr-2'>🚪</span> Elige una puerta para ganar <span class="prize-amount">${currentPrize} pesos</span>. ¡La aventura te espera!
-            `;
+        if (!name) {
+            alert('Por favor ingresa tu nombre.');
+            return;
         }
+        
+        if (phone.length !== 10) {
+            alert('Por favor ingresa un número de teléfono válido de 10 dígitos.');
+            return;
+        }
+        
+        // Set player info
+        gameState.playerName = name;
+        gameState.playerPhone = phone;
+        gameState.playerFolio = generateRandomFolio();
+        
+        // Update display
+        playerNameDisplay.textContent = gameState.playerName;
+        playerFolioDisplay.textContent = gameState.playerFolio;
+        playerPhoneDisplay.textContent = gameState.playerPhone;
+        
+        // Switch screens
+        registrationScreen.classList.add('hidden');
+        gameScreen.classList.remove('hidden');
+        
+        // Setup first level
+        setupLevel(gameState.currentLevel);
     }
     
-    // Generate doors
-    function generateDoors() {
+    function setupLevel(level) {
+        gameState.doorSelected = false;
+        levelTitle.textContent = `Nivel ${level}`;
+        
+        // Show winnings if not level 1
+        if (level > 1) {
+            winningsContainer.classList.remove('hidden');
+            playerWinningsDisplay.textContent = typeof gameState.totalWinnings === 'number' ? `$${gameState.totalWinnings}` : gameState.totalWinnings;
+        }
+        
+        // Clear previous doors
         doorsContainer.innerHTML = '';
         
-        // Don't show doors in catafixia level
-        if (gameState.level === 5) return;
+        // Hide continue container
+        continueContainer.classList.add('hidden');
         
-        // Shuffle colors and emojis
-        const shuffledColors = [...gameState.doorColors].sort(() => Math.random() - 0.5);
-        const shuffledEmojis = [...gameState.doorEmojis].sort(() => Math.random() - 0.5);
-        
-        // Create 3 doors
-        for (let i = 0; i < 3; i++) {
-            const door = document.createElement('div');
-            door.className = 'door relative h-64 cursor-pointer rounded-xl';
-            door.innerHTML = `
-                <div class="door-front" style="background-color: ${shuffledColors[i]}">
-                    <div class="text-white text-3xl font-bold mt-4 bg-black bg-opacity-30 px-4 py-2 rounded-lg">Puerta ${i + 1}</div>
-                    <div class="door-emoji">${shuffledEmojis[i]}</div>
-                    <div class="door-knob absolute right-4 top-1/2"></div>
-                    <div class="text-white text-xl mb-4 bg-black bg-opacity-30 px-4 py-2 rounded-lg">¿Suerte?</div>
-                </div>
-            `;
-            door.addEventListener('click', () => selectDoor(i));
+        // Create doors based on level config
+        const config = levelConfig[level];
+        for (let i = 0; i < config.doors; i++) {
+            const door = createDoor(i + 1);
             doorsContainer.appendChild(door);
         }
     }
     
-    // Select door
-    function selectDoor(index) {
-        gameState.selectedDoorIndex = index;
-        showConfirmationModal();
-    }
-    
-    // Show confirmation modal
-    function showConfirmationModal() {
-        confirmationModal.classList.remove('hidden');
-    }
-    
-    // Hide confirmation modal
-    function hideConfirmationModal() {
-        confirmationModal.classList.add('hidden');
-    }
-    
-    // Process door selection
-    function processDoorSelection() {
-        hideConfirmationModal();
+    function createDoor(doorNumber) {
+        const doorDiv = document.createElement('div');
+        doorDiv.className = 'door relative cursor-pointer';
+        doorDiv.innerHTML = `
+            <div class="door-inner relative w-full h-full">
+                <div class="door-front bg-gradient-to-b from-yellow-600 to-yellow-800 rounded-lg shadow-xl p-4 flex flex-col items-center justify-center">
+                    <div class="absolute top-2 left-2 w-6 h-6 rounded-full bg-yellow-400"></div>
+                    <div class="absolute top-2 right-2 w-6 h-6 rounded-full bg-yellow-400"></div>
+                    <div class="text-6xl font-bold mb-4">${doorNumber}</div>
+                    <div class="door-knob"></div>
+                    <div class="door-frame"></div>
+                </div>
+                <div class="door-back bg-gradient-to-b from-gray-700 to-gray-900 rounded-lg shadow-xl p-4 flex items-center justify-center">
+                    <div id="door-content-${doorNumber}" class="text-center prize-box">
+                        <div class="text-2xl font-bold mb-2">Cargando...</div>
+                    </div>
+                </div>
+            </div>
+        `;
         
-        // Update player info in result modal
-        resultPlayerName.textContent = gameState.userName;
-        resultPlayerPhone.textContent = gameState.userPhone;
-        
-        // Determine win probability based on level
-        const winProbability = gameState.level === 4 ? gameState.level4WinProbability : gameState.winProbability;
-        
-        // Determine if player wins
-        const isWin = Math.random() < winProbability;
-        
-        if (isWin) {
-            // Hide loss details
-            lossDetails.classList.add('hidden');
-            
-            if (gameState.level === 4) {
-                // Level 4 - Random special prize
-                const randomPrizeIndex = Math.floor(Math.random() * gameState.finalPrizes.length);
-                const randomPrize = gameState.finalPrizes[randomPrizeIndex];
-                
-                let prizeIcon = "🎁";
-                if (randomPrize.includes("barco")) prizeIcon = "⛵";
-                else if (randomPrize.includes("vino")) prizeIcon = "🍷";
-                else if (randomPrize.includes("descuento")) prizeIcon = "💰";
-                
-                // Reset money to 0 since they're getting a special prize instead
-                const previousMoney = gameState.money;
-                gameState.money = 0;
-                
-                showResult(true, "¡PREMIO ESPECIAL! 🎊", `Has ganado: ${randomPrize}. Has perdido tus ${previousMoney} pesos acumulados.`, prizeIcon);
-            } else {
-                // Regular win with updated prize amounts
-                const currentPrize = gameState.levelPrizes[gameState.level - 1];
-                gameState.money += currentPrize;
-                
-                // Track accumulated winnings from first 3 levels
-                if (gameState.level <= 3) {
-                    gameState.accumulatedWinnings += currentPrize;
-                }
-                
-                showResult(true, "¡GANASTE! 🎉", `Has ganado ${currentPrize} pesos. Total: ${gameState.money} pesos.`, "🏆");
+        doorDiv.addEventListener('click', () => {
+            if (!gameState.doorSelected) {
+                openDoor(doorDiv, doorNumber);
             }
+        });
+        
+        return doorDiv;
+    }
+    
+    function openDoor(doorElement, doorNumber) {
+        if (gameState.doorSelected) return;
+        
+        gameState.doorSelected = true;
+        doorElement.classList.add('open');
+        
+        const level = gameState.currentLevel;
+        const config = levelConfig[level];
+        const doorContent = doorElement.querySelector(`#door-content-${doorNumber}`);
+        
+        // Always win since probability is 100%
+        if (level === 4) {
+            // Special handling for level 4 with different prizes
+            // Select a prize based on probabilities
+            const prizeObj = selectPrizeObjectByProbability(config.prizes);
+            doorContent.innerHTML = `
+                <div class="prize-icon">${prizeObj.icon}</div>
+                <div class="text-2xl font-bold mb-2 text-green-400 win-text">¡GANASTE!</div>
+                <div class="text-xl">${prizeObj.name}</div>
+            `;
             createConfetti();
+            gameState.hasWon = true;
+            gameState.totalWinnings = prizeObj.name; // Replace previous winnings
+        } else if (level === 5) {
+            // Final level
+            doorContent.innerHTML = `
+                <div class="prize-icon">${config.icon}</div>
+                <div class="text-2xl font-bold mb-2 text-green-400 win-text">¡GANASTE!</div>
+                <div class="text-xl">${config.prize}</div>
+            `;
+            createConfetti();
+            gameState.hasWon = true;
+            gameState.totalWinnings = config.prize;
         } else {
-            // Loss with encouraging message and folio number
-            const newFolio = generateFolioNumber();
-            folioNumber.textContent = newFolio;
-            lossDetails.classList.remove('hidden');
-            
-            // If level 4, show how much they lost from previous levels
-            if (gameState.level === 4) {
-                showResult(false, "¡Has perdido! 🌊", `Has perdido los ${gameState.accumulatedWinnings} pesos que habías ganado. Explorar siempre será para los valientes.`, "🧭");
+            // Regular levels 1-3
+            doorContent.innerHTML = `
+                <div class="prize-icon">${config.icon}</div>
+                <div class="text-2xl font-bold mb-2 text-green-400 win-text">¡GANASTE!</div>
+                <div class="text-xl">$${config.prize}</div>
+            `;
+            createConfetti();
+            gameState.hasWon = true;
+            gameState.totalWinnings += config.prize;
+        }
+        
+        // Show continue options after a delay
+        setTimeout(() => {
+            if (level === 3) {
+                // After level 3, ask if they want to try level 4
+                finalConfirmationScreen.classList.remove('hidden');
+                gameScreen.classList.add('hidden');
+            } else if (level === 4) {
+                // After level 4, ask if they want to try level 5
+                finalConfirmationScreen.classList.remove('hidden');
+                gameScreen.classList.add('hidden');
+            } else if (level === 5) {
+                // End of game
+                showResult();
             } else {
-                showResult(false, "¡Has perdido! 🌊", "Explorar siempre será para los valientes. ¡Inténtalo de nuevo!", "🧭");
+                // Regular continue
+                continueContainer.classList.remove('hidden');
             }
-            gameState.money = 0; // Reset money to 0 when player loses
+        }, 1500);
+    }
+    
+    function nextLevel() {
+        if (gameState.currentLevel < gameState.maxLevel) {
+            gameState.currentLevel++;
+            setupLevel(gameState.currentLevel);
+        } else {
+            showResult();
         }
     }
     
-    // Process catafixia choice
-    function processCatafixiaChoice(accepted) {
-        if (accepted) {
-            // Player accepted the catafixia challenge
-            const isWin = Math.random() < gameState.catafixiaProbability; // 2% chance
-            
-            if (isWin) {
-                // Won the grand prize!
-                showResult(true, "¡INCREÍBLE! 🎊🎊🎊", `¡Has ganado el Viaje Gratis A Valle de Guadalupe: ${gameState.grandPrize}!`, "🏆");
-                createConfetti();
-                // Create extra confetti for the grand prize
-                setTimeout(() => {
-                    createConfetti();
-                }, 500);
-            } else {
-                // Lost everything
-                const newFolio = generateFolioNumber();
-                folioNumber.textContent = newFolio;
-                lossDetails.classList.remove('hidden');
-                
-                showResult(false, "¡Has perdido! 😢", "La suerte no estuvo de tu lado esta vez. ¡Gracias por jugar!", "🎰");
-                gameState.money = 0; // Reset money to 0 when player loses
+    function playFinalLevel() {
+        gameState.currentLevel++;
+        finalConfirmationScreen.classList.add('hidden');
+        gameScreen.classList.remove('hidden');
+        setupLevel(gameState.currentLevel);
+    }
+    
+    function showResult() {
+        gameScreen.classList.add('hidden');
+        finalConfirmationScreen.classList.add('hidden');
+        resultScreen.classList.remove('hidden');
+        
+        // Update result screen - Always winning now
+        resultTitle.textContent = "¡Felicidades!";
+        resultTitle.classList.remove('text-red-500');
+        resultTitle.classList.add('text-yellow-300');
+        
+        // Format prize display
+        let prizeDisplay;
+        if (typeof gameState.totalWinnings === 'number') {
+            prizeDisplay = `$${gameState.totalWinnings}`;
+        } else {
+            prizeDisplay = gameState.totalWinnings;
+        }
+        
+        finalPrize.textContent = prizeDisplay;
+        resultName.textContent = gameState.playerName;
+        resultFolio.textContent = gameState.playerFolio;
+        resultPhone.textContent = gameState.playerPhone;
+        resultDate.textContent = getCurrentDate();
+        resultPrize.textContent = prizeDisplay;
+    }
+    
+    function restartGame() {
+        // Reset game state but keep player info
+        gameState.currentLevel = 1;
+        gameState.totalWinnings = 0;
+        gameState.hasWon = false;
+        gameState.doorSelected = false;
+        gameState.playerFolio = generateRandomFolio(); // Generate new folio for new game
+        
+        // Update display with new folio
+        playerFolioDisplay.textContent = gameState.playerFolio;
+        
+        // Switch screens
+        resultScreen.classList.add('hidden');
+        gameScreen.classList.remove('hidden');
+        
+        // Hide winnings display for new game
+        winningsContainer.classList.add('hidden');
+        
+        // Setup first level
+        setupLevel(gameState.currentLevel);
+    }
+    
+    function resetGame() {
+        // Reset game state completely
+        gameState.currentLevel = 1;
+        gameState.totalWinnings = 0;
+        gameState.hasWon = false;
+        gameState.doorSelected = false;
+        gameState.playerName = '';
+        gameState.playerPhone = '';
+        gameState.playerFolio = '';
+        
+        // Clear inputs
+        folioInput.value = '';
+        nameInput.value = '';
+        phoneInput.value = '';
+        
+        // Switch screens
+        resultScreen.classList.add('hidden');
+        registrationScreen.classList.remove('hidden');
+    }
+    
+    // Helper Functions
+    function generateRandomFolio() {
+        let folio = '';
+        for (let i = 0; i < 5; i++) {
+            folio += Math.floor(Math.random() * 10);
+        }
+        return folio;
+    }
+    
+    function getCurrentDate() {
+        const now = new Date();
+        return now.toLocaleDateString('es-MX');
+    }
+    
+    function selectPrizeObjectByProbability(prizes) {
+        const rand = Math.random();
+        let cumulativeProbability = 0;
+        
+        for (const prize of prizes) {
+            cumulativeProbability += prize.probability;
+            if (rand < cumulativeProbability) {
+                return prize;
             }
-        } else {
-            // Player rejected the catafixia challenge - they keep their winnings
-            showResult(true, "¡Decisión sabia! 👍", `Te quedas con tus ${gameState.money} pesos. ¡Gracias por jugar!`, "💰");
         }
         
-        // Hide catafixia container
-        catafixiaContainer.classList.add('hidden');
+        // Fallback
+        return prizes[0];
     }
     
-    // Show result modal
-    function showResult(isWin, title, message, icon) {
-        resultTitle.textContent = title;
-        resultMessage.textContent = message;
-        resultIcon.textContent = icon;
-        
-        if (isWin) {
-            resultTitle.className = "text-3xl font-bold mb-4 text-center text-green-600";
-        } else {
-            resultTitle.className = "text-3xl font-bold mb-4 text-center text-red-600";
-        }
-        
-        resultModal.classList.remove('hidden');
-    }
-    
-    // Hide result modal
-    function hideResultModal() {
-        resultModal.classList.add('hidden');
-    }
-    
-    // Continue game
-    function continueGame() {
-        hideResultModal();
-        
-        if (gameState.money === 0) {
-            // Game over, show restart button
-            restartButton.classList.remove('hidden');
-            messageDisplay.innerHTML = "<span class='mr-2'>🔄</span> ¡Juego terminado! Puedes volver a jugar.";
-            doorsContainer.innerHTML = '';
-            prizeListContainer.classList.add('hidden');
-            catafixiaContainer.classList.add('hidden');
-            moneyDisplay.textContent = "0"; // Ensure money display shows 0
-        } else {
-            if (gameState.level < 5) {
-                gameState.level++;
-                updateDisplay();
-                generateDoors();
-            } else {
-                // Game completed successfully
-                messageDisplay.innerHTML = "<span class='mr-2'>🏆</span> ¡Felicidades! Has completado el juego.";
-                restartButton.classList.remove('hidden');
-                doorsContainer.innerHTML = '';
-                prizeListContainer.classList.add('hidden');
-                catafixiaContainer.classList.add('hidden');
-            }
-        }
-    }
-    
-    // Create confetti effect
     function createConfetti() {
-        const colors = ['#FF5733', '#33A8FF', '#FF9F33', '#33FFB8', '#FF33A8', '#33FFF5', '#FF00AA', '#00D4FF'];
+        const colors = ['#ff0000', '#00ff00', '#0000ff', '#ffff00', '#ff00ff', '#00ffff'];
         
-        for (let i = 0; i < 100; i++) {
+        for (let i = 0; i < 50; i++) {
             const confetti = document.createElement('div');
             confetti.className = 'confetti';
             confetti.style.left = `${Math.random() * 100}%`;
+            confetti.style.width = `${Math.random() * 10 + 5}px`;
+            confetti.style.height = `${Math.random() * 10 + 5}px`;
             confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-            confetti.style.width = `${Math.random() * 12 + 8}px`;
-            confetti.style.height = `${Math.random() * 12 + 8}px`;
             confetti.style.animationDuration = `${Math.random() * 3 + 2}s`;
-            confetti.style.animationDelay = `${Math.random() * 0.5}s`;
-            
-            // Add some rotation
-            confetti.style.transform = `rotate(${Math.random() * 360}deg)`;
-            
-            // Different shapes
-            if (Math.random() > 0.7) {
-                confetti.style.borderRadius = '50%';
-            } else if (Math.random() > 0.5) {
-                confetti.style.borderRadius = '4px';
-            }
+            confetti.style.animationDelay = `${Math.random() * 2}s`;
             
             document.body.appendChild(confetti);
             
@@ -1031,94 +649,6 @@
             }, 5000);
         }
     }
-    
-    // Format phone number as user types
-    userPhoneInput.addEventListener('input', function(e) {
-        let value = e.target.value.replace(/\D/g, '');
-        if (value.length > 10) value = value.slice(0, 10);
-        
-        if (value.length > 6) {
-            value = value.slice(0, 3) + '-' + value.slice(3, 6) + '-' + value.slice(6);
-        } else if (value.length > 3) {
-            value = value.slice(0, 3) + '-' + value.slice(3);
-        }
-        
-        e.target.value = value;
-    });
-    
-    // Event listeners
-    cancelChoiceButton.addEventListener('click', hideConfirmationModal);
-    confirmChoiceButton.addEventListener('click', processDoorSelection);
-    continueButton.addEventListener('click', continueGame);
-    restartButton.addEventListener('click', initGame);
-    
-    // Catafixia event listeners
-    acceptCatafixiaButton.addEventListener('click', () => processCatafixiaChoice(true));
-    rejectCatafixiaButton.addEventListener('click', () => processCatafixiaChoice(false));
-    function continueGame() {
-    hideResultModal();
-    
-    if (gameState.money === 0) {
-        // Game over
-        restartButton.classList.remove('hidden');
-        messageDisplay.innerHTML = "<span class='mr-2'>🔄</span> ¡Juego terminado! Puedes volver a jugar.";
-        doorsContainer.innerHTML = '';
-        prizeListContainer.classList.add('hidden');
-        catafixiaContainer.classList.add('hidden');
-    } else {
-        if (gameState.level < 4) {
-            gameState.level++;
-            updateDisplay();
-            generateDoors();
-        } else if (gameState.level === 4) {
-            // Después del nivel 4, pasa al nivel 5 (Catafixia)
-            gameState.level = 5;
-            updateDisplay(); // Esto mostrará el contenedor de Catafixia
-        } else {
-            // Si ya completó la Catafixia, termina el juego
-            messageDisplay.innerHTML = "<span class='mr-2'>🏆</span> ¡Felicidades! Has completado el juego.";
-            restartButton.classList.remove('hidden');
-            doorsContainer.innerHTML = '';
-            prizeListContainer.classList.add('hidden');
-            catafixiaContainer.classList.add('hidden');
-        }
-    }
-}
-    function updateDisplay() {
-    levelDisplay.textContent = gameState.level;
-    moneyDisplay.textContent = gameState.money;
-    
-    if (gameState.level === 4) {
-        // Nivel 4: Premios especiales
-        finalPrizeDisplay.classList.remove('hidden');
-        prizeListContainer.classList.remove('hidden');
-        catafixiaContainer.classList.add('hidden'); // Asegúrate de que esté oculto
-        messageDisplay.innerHTML = `
-            <div class="upgrade-badge">¡Mejora tu premio!</div>
-            <span class='mr-2'>🎯</span> ¡Última ronda! Elige una puerta para ganar un premio especial.
-        `;
-    } else if (gameState.level === 5) {
-        // Nivel 5: Catafixia
-        finalPrizeDisplay.classList.add('hidden');
-        prizeListContainer.classList.add('hidden');
-        catafixiaContainer.classList.remove('hidden'); // Muestra la Catafixia
-        messageDisplay.innerHTML = `
-            <div class="upgrade-badge">¡Mejora tu premio!</div>
-            <span class='mr-2'>🎰</span> ¡Nivel CATAFIXIA! Decide si arriesgar todo por el premio mayor.
-        `;
-        doorsContainer.innerHTML = ''; // Oculta las puertas
-    } else {
-        // Niveles 1-3
-        finalPrizeDisplay.classList.add('hidden');
-        prizeListContainer.classList.add('hidden');
-        catafixiaContainer.classList.add('hidden');
-        const currentPrize = gameState.levelPrizes[gameState.level - 1];
-        messageDisplay.innerHTML = `
-            <div class="upgrade-badge">¡Mejora tu premio!</div>
-            <span class='mr-2'>🚪</span> Elige una puerta para ganar <span class="prize-amount">${currentPrize} pesos</span>.
-        `;
-    }
-}
 </script>
 </body>
 </html>
