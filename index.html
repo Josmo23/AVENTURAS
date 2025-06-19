@@ -284,6 +284,30 @@
             color: transparent;
             text-shadow: 0 2px 4px rgba(0,0,0,0.3);
         }
+        #main-title {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+#main-title .palmera-izq {
+    color: #fbbf24; /* Amarillo Tailwind-400 */
+    font-size: 1.5em;
+}
+
+#main-title .palmera-der {
+    color: #4ade80; /* Verde Tailwind-400 */
+    font-size: 1.5em;
+}
+
+#main-title .texto-morado {
+    background: linear-gradient(to right, #9333ea, #7e22ce);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    font-weight: bold;
+}
  
     </style>
 </head>
@@ -302,7 +326,11 @@
         <!-- Registration Screen -->
         <div id="registration" class="vacation-bg backdrop-blur-md rounded-xl p-6 shadow-2xl mx-auto max-w-2xl">
             <div class="relative">
-                <h1 class="text-3xl md:text-4xl font-bold text-center mb-2 purple-theme" id="main-title">🏝️Aventuras🏝️</h1>
+        <h1 class="text-3xl md:text-4xl font-bold text-center mb-2" id="main-title">
+    <span class="palmera-izq">🏝️</span>
+    <span class="texto-morado">Aventuras</span>
+    <span class="palmera-der">🏝️</span>
+            </h1>
                 <h2 class="text-xl md:text-2xl font-semibold text-center mb-8 flex items-center justify-center">
                     <span class="mr-2">🎁</span> ¡Juega y Gana Premios Increíbles! <span class="ml-2">🎁</span>
                 </h2>
