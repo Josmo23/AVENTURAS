@@ -290,6 +290,22 @@
     justify-content: center;
     gap: 0.5rem;
 }
+        #game-title {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+#game-title .palmera-izq {
+    color: #facc15; /* Amarillo vibrante */
+    font-size: 1.2em;
+}
+
+#game-title .palmera-der {
+    color: #4ade80; /* Verde Tailwind-400 */
+    font-size: 1.2em;
+}
 
 #main-title .palmera-izq {
     color: #fbbf24; /* Amarillo Tailwind-400 */
@@ -388,8 +404,11 @@
         <!-- Game Screen -->
         <div id="game" class="hidden">
             <div class="beach-bg backdrop-blur-md rounded-xl p-6 shadow-2xl mb-6 mx-auto max-w-4xl">
-                <h1 class="text-3xl font-bold text-center mb-2 purple-theme" id="game-title">🏝️ Tours Aventuras por la Baja 🏝️</h1>
-                <h2 id="level-title" class="text-2xl font-semibold text-center mb-4 flex items-center justify-center purple-theme">
+         <h1 class="text-3xl font-bold text-center mb-2" id="game-title">
+    <span class="text-yellow-400">🏝️</span> 
+    <span class="purple-theme">Tours Aventuras por la Baja</span> 
+    <span class="text-green-400">🏝️</span>
+</h1>
                     <span class="mr-2">🎯</span> Nivel 1 <span class="ml-2">🎯</span>
                 </h2>
                 <div id="player-info" class="flex flex-col md:flex-row justify-between items-center mb-6 p-3 bg-white/5 rounded-lg">
