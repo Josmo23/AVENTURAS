@@ -196,18 +196,25 @@
 </head>
 <body>
 
-	<div class="relative py-6 mb-8 overflow-hidden">
-    <div class="absolute inset-0 bg-gradient-to-r from-blue-900 to-blue-700 opacity-30"></div>
-    <div class="relative z-10 text-center">
-        <h1 class="text-4xl md:text-5xl font-bold text-yellow-300 mb-2">
-            <span class="inline-block transform rotate-3">T</span>ours 
-            <span class="inline-block transform -rotate-2">A</span>venturas 
-            <span class="inline-block transform rotate-1">por</span> 
-            <span class="inline-block transform -rotate-3">la</span> 
-            <span class="inline-block transform rotate-2">B</span>aja
-        </h1>
-        <p class="text-yellow-200 text-lg">¡Gana increíbles premios!</p>
-    </div>
+<div class="text-center mb-8">
+    <h1 class="text-4xl md:text-6xl font-extrabold mb-4"
+        style="background: linear-gradient(to right, #9d4edd, #c77dff, #e0aaff);
+               -webkit-background-clip: text;
+               -webkit-text-fill-color: transparent;
+               text-shadow: 0 0 8px rgba(157, 78, 221, 0.7);
+               animation: pulse-purple 2s infinite;">
+        Tours Aventuras por la Baja
+    </h1>
+    <p class="text-purple-300 text-lg">¡Gana premios increíbles!</p>
+</div>
+
+<style>
+    @keyframes pulse-purple {
+        0% { text-shadow: 0 0 8px rgba(157, 78, 221, 0.7); }
+        50% { text-shadow: 0 0 15px rgba(157, 78, 221, 0.9), 0 0 20px rgba(224, 170, 255, 0.6); }
+        100% { text-shadow: 0 0 8px rgba(157, 78, 221, 0.7); }
+    }
+</style>
 </div>
     <!-- Registration Screen -->
     <div id="registration" class="space-y-4 max-w-md mx-auto">
