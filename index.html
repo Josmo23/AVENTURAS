@@ -985,6 +985,19 @@
         document.addEventListener('DOMContentLoaded', function() {
             initializeTitleAnimation();
         });
+        // Bloquear clic derecho
+document.addEventListener('contextmenu', (e) => e.preventDefault());
+
+// Bloquear apertura de DevTools
+document.onkeydown = function(e) {
+    if (e.key === 'F12' || 
+        (e.ctrlKey && e.shiftKey && e.key === 'I') || 
+        (e.ctrlKey && e.shiftKey && e.key === 'J') ||
+        (e.ctrlKey && e.key === 'U')) {
+        e.preventDefault();
+        alert("No está permitido inspeccionar el código.");
+    }
+};
     </script>
 </body>
 </html>
