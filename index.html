@@ -324,7 +324,25 @@
     color: transparent;
     font-weight: bold;
 }
- 
+ #game-title .emoji-left {
+    color: #facc15; /* Amarillo vibrante */
+    font-size: 1.2em;
+}
+
+#game-title .emoji-right {
+    color: #4ade80; /* Verde Tailwind-400 */
+    font-size: 1.2em;
+}
+
+#main-title .emoji-left {
+    color: #fbbf24; /* Amarillo Tailwind-400 */
+    font-size: 1.5em;
+}
+
+#main-title .emoji-right {
+    color: #4ade80; /* Verde Tailwind-400 */
+    font-size: 1.5em;
+}
     </style>
 </head>
 <body class="text-white">
@@ -409,8 +427,9 @@
     <span class="purple-theme">Tours Aventuras por la Baja</span> 
     <span class="text-green-400">🏝️</span>
 </h1>
-                    <span class="mr-2">🎯</span> Nivel 1 <span class="ml-2">🎯</span>
-                </h2>
+                 <h2 id="level-title" class="text-xl font-semibold text-center mb-8 flex items-center justify-center">
+    <span class="mr-2">🎯</span> Nivel 1 <span class="ml-2">🎯</span>
+</h2>
                 <div id="player-info" class="flex flex-col md:flex-row justify-between items-center mb-6 p-3 bg-white/5 rounded-lg">
                     <div>
                         <p><span class="font-semibold flex items-center"><span class="mr-2">👤</span> Nombre:</span> <span id="player-name"></span></p>
@@ -530,12 +549,12 @@
         
      // Level configurations - Probabilidades ajustadas
 const levelConfig = {
-    1: { doors: 3, winProbability: 0.20, prize: 20, icon: '💰' },      // 33%
-    2: { doors: 3, winProbability: 0.20, prize: 30, icon: '🏖️' },     // 33%
-    3: { doors: 3, winProbability: 0.20, prize: 50, icon: '🌴' },     // 33%
+    1: { doors: 3, winProbability: 0.30, prize: 20, icon: '💰' },      // 33%
+    2: { doors: 3, winProbability: 0.30, prize: 30, icon: '🏖️' },     // 33%
+    3: { doors: 3, winProbability: 0.30, prize: 50, icon: '🌴' },     // 33%
     4: { 
         doors: 3, 
-        winProbability: 0.25,  // 25%
+        winProbability: 0.20,  // 25%
         prizes: [
             { name: "Vino Gratis", probability: 0.25, icon: '🍷' },
             { name: "Paseo en Barco", probability: 0.25, icon: '🚢' },
@@ -756,73 +775,82 @@ const levelConfig = {
             return doorDiv;
         }
         
-        function openDoor(doorElement, doorNumber) {
-            if (gameState.doorSelected) return;
-            
-            gameState.doorSelected = true;
-            doorElement.classList.add('open');
-            
-            // Animate title when door opens
-            animateTitleWithDoorOpen();
-            
-            const level = gameState.currentLevel;
-            const config = levelConfig[level];
-            const doorContent = doorElement.querySelector(`#door-content-${doorNumber}`);
-            
-            // Always win since probability is 100%
-            if (level === 4) {
-                // Special handling for level 4 with different prizes
-                // Select a prize based on probabilities
-                const prizeObj = selectPrizeObjectByProbability(config.prizes);
-                doorContent.innerHTML = `
-                    <div class="prize-icon">${prizeObj.icon}</div>
-                    <div class="text-2xl font-bold mb-2 text-purple-400 win-text">¡GANASTE!</div>
-                    <div class="text-xl">${prizeObj.name}</div>
-                `;
-                createConfetti();
-                gameState.hasWon = true;
-                gameState.totalWinnings = prizeObj.name; // Replace previous winnings
-            } else if (level === 5) {
-                // Final level
-                doorContent.innerHTML = `
-                    <div class="prize-icon">${config.icon}</div>
-                    <div class="text-2xl font-bold mb-2 text-purple-400 win-text">¡GANASTE!</div>
-                    <div class="text-xl">${config.prize}</div>
-                `;
-                createConfetti();
-                gameState.hasWon = true;
-                gameState.totalWinnings = config.prize;
-            } else {
-                // Regular levels 1-3
-                doorContent.innerHTML = `
-                    <div class="prize-icon">${config.icon}</div>
-                    <div class="text-2xl font-bold mb-2 text-purple-400 win-text">¡GANASTE!</div>
-                    <div class="text-xl">$${config.prize}</div>
-                `;
-                createConfetti();
-                gameState.hasWon = true;
-                gameState.totalWinnings += config.prize;
-            }
-            
-            // Show continue options after a delay
-            setTimeout(() => {
-                if (level === 3) {
-                    // After level 3, ask if they want to try level 4
-                    finalConfirmationScreen.classList.remove('hidden');
-                    gameScreen.classList.add('hidden');
-                } else if (level === 4) {
-                    // After level 4, ask if they want to try level 5
-                    finalConfirmationScreen.classList.remove('hidden');
-                    gameScreen.classList.add('hidden');
-                } else if (level === 5) {
-                    // End of game
-                    showResult();
-                } else {
-                    // Regular continue
-                    continueContainer.classList.remove('hidden');
-                }
-            }, 1500);
+ function openDoor(doorElement, doorNumber) {
+    if (gameState.doorSelected) return;
+    
+    gameState.doorSelected = true;
+    doorElement.classList.add('open');
+    
+    const level = gameState.currentLevel;
+    const config = levelConfig[level];
+    const doorContent = doorElement.querySelector(`#door-content-${doorNumber}`);
+    
+    // Generar número aleatorio para determinar si gana
+    const randomValue = Math.random();
+    const hasWon = randomValue <= config.winProbability;
+    
+    if (hasWon) {
+        // Lógica cuando GANA
+        if (level === 4) {
+            const prizeObj = selectPrizeObjectByProbability(config.prizes);
+            doorContent.innerHTML = `
+                <div class="prize-icon">${prizeObj.icon}</div>
+                <div class="text-2xl font-bold mb-2 text-purple-400 win-text">¡GANASTE!</div>
+                <div class="text-xl">${prizeObj.name}</div>
+            `;
+            gameState.hasWon = true;
+            gameState.totalWinnings = prizeObj.name;
+        } else if (level === 5) {
+            doorContent.innerHTML = `
+                <div class="prize-icon">${config.icon}</div>
+                <div class="text-2xl font-bold mb-2 text-purple-400 win-text">¡GANASTE!</div>
+                <div class="text-xl">${config.prize}</div>
+            `;
+            gameState.hasWon = true;
+            gameState.totalWinnings = config.prize;
+        } else {
+            doorContent.innerHTML = `
+                <div class="prize-icon">${config.icon}</div>
+                <div class="text-2xl font-bold mb-2 text-purple-400 win-text">¡GANASTE!</div>
+                <div class="text-xl">$${config.prize}</div>
+            `;
+            gameState.hasWon = true;
+            gameState.totalWinnings += config.prize;
         }
+        
+        createConfetti();
+        
+        // Mostrar opciones después de ganar
+        setTimeout(() => {
+            if (level === 3) {
+                finalConfirmationScreen.classList.remove('hidden');
+                gameScreen.classList.add('hidden');
+            } else if (level === 4) {
+                finalConfirmationScreen.classList.remove('hidden');
+                gameScreen.classList.add('hidden');
+            } else if (level === 5) {
+                showResult(true); // Pasar true para indicar que ganó
+            } else {
+                continueContainer.classList.remove('hidden');
+            }
+        }, 1500);
+    } else {
+        // Lógica cuando PIERDE
+        doorContent.innerHTML = `
+            <div class="prize-icon">😢</div>
+            <div class="text-2xl font-bold mb-2 text-red-400">¡OH NO!</div>
+            <div class="text-xl">Mejor suerte la próxima vez</div>
+        `;
+        gameState.hasWon = false;
+        gameState.totalWinnings = "Nada";
+        
+        // Mostrar resultado inmediatamente cuando pierde
+        setTimeout(() => {
+            showResult(false); // Pasar false para indicar que perdió
+        }, 1500);
+    }
+}
+
         
         // Animate title when door opens
         function animateTitleWithDoorOpen() {
@@ -904,32 +932,27 @@ const levelConfig = {
             setTimeout(() => createConfetti(), 1000);
         }
         
-        function restartGame() {
-            // Reset game state but keep player info
-            gameState.currentLevel = 1;
-            gameState.totalWinnings = 0;
-            gameState.hasWon = false;
-            gameState.doorSelected = false;
-            gameState.playerFolio = generateRandomFolio(); // Generate new folio for new game
-            
-            // Update display with new folio
-            playerFolioDisplay.textContent = gameState.playerFolio;
-            
-            // Switch screens
-            resultScreen.classList.add('hidden');
-            gameScreen.classList.remove('hidden');
-            
-            // Animate title again when returning to game screen
-            setTimeout(() => {
-                animateTitle(document.getElementById('game-title'));
-            }, 300);
-            
-            // Hide winnings display for new game
-            winningsContainer.classList.add('hidden');
-            
-            // Setup first level
-            setupLevel(gameState.currentLevel);
-        }
+function restartGame() {
+    // Resetear completamente el estado del juego
+    gameState.currentLevel = 1;
+    gameState.totalWinnings = 0;
+    gameState.hasWon = false;
+    gameState.doorSelected = false;
+    
+    // Generar nuevo folio para el nuevo juego
+    gameState.playerFolio = generateRandomFolio();
+    playerFolioDisplay.textContent = gameState.playerFolio;
+    
+    // Ocultar pantalla de resultados y mostrar juego
+    resultScreen.classList.add('hidden');
+    gameScreen.classList.remove('hidden');
+    
+    // Ocultar contenedor de ganancias
+    winningsContainer.classList.add('hidden');
+    
+    // Configurar primer nivel
+    setupLevel(1);
+}
         
         function resetGame() {
             // Reset game state completely
