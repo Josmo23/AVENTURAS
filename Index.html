@@ -337,8 +337,8 @@
             '#33FFF5'  // Turquoise
         ],
         doorEmojis: ['🏖️', '🌮', '🌵', '🍹', '🐠', '🏄‍♂️', '🌊', '🐚', '🐬'],
-        winProbability: 0.45, // Increased by 5%
-        correctCode: '04092025'
+        winProbability: 0.38, // Increased by 5%
+        correctCode: '13062025'
     };
     
     // DOM elements
@@ -537,7 +537,7 @@
             
             if (gameState.level === 4) {
                 // Final level special prize
-                const isMoney = Math.random() < 0.6;
+                const isMoney = Math.random() < 0.5;
                 if (isMoney) {
                     showResult(true, "¡PREMIO ESPECIAL! 🎊", "Has ganado 100 pesos de descuento para tu próxima aventura.", "💰");
                 } else {
